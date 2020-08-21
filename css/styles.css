@@ -1,0 +1,283 @@
+:root {
+    /* Global colors */
+    --global-color-alpha-light: #4F95FF;
+    --global-color-alpha: #3385FF;
+    --global-color-alpha-dark: #2E77E6;
+    --global-color-alpha-x-dark: #1B4186;
+    --global-color-alpha-transparent: #3385ffbf;
+    --global-color-alpha-x-transparent: #3385ff4d;
+
+    --global-color-neutral-xxxx-light: #F5F6FA;
+    --global-color-neutral-xxx-light: #E2E3E7;
+    --global-color-neutral-xx-light: #caccd4;
+    --global-color-neutral-x-light: #b5b6c0;
+    --global-color-neutral-light: #a0a1ad;
+    --global-color-neutral: #8b8c9a;
+    --global-color-neutral-dark: #757787;
+    --global-color-neutral-x-dark: #606274;
+    --global-color-neutral-xx-dark: #4b4c60;
+    --global-color-neutral-xxx-dark: #35374d;
+    --global-color-neutral-xxxx-dark: #20223a;
+    --global-color-error: #FF3333;
+    --global-color-error-transparent: #FF3333bf;
+    --global-color-error-x-transparent: #FF33334d;
+
+    /* global page settings */
+    --global-page-color: var(--global-color-neutral-xxxx-light);
+    --global-page-backgroundColor: var(--global-color-neutral-xxxx-dark);
+    --global-selection-backgroundColor: var(--global-color-alpha);
+
+    /* border radius */
+    --global-borderRadius: 3px;
+    --global-borderWidth: 1px;
+
+    /* transitions */
+    --global-transitionEasing-out: ease-out;
+    --global-transitionEasing-out-cubic: cubic-bezier(0.22, 0.61, 0.36, 1);
+    --global-transitionDuration-alpha: .1s;
+    --global-transitionDuration-beta: .2s;
+    --global-transitionDuration-gamma: .3s;
+
+
+     /* Baseline settings */
+    --global-baseline: 8px;         
+    --global-whitespace: calc(var(--global-baseline) * 3); /* = 24px */
+
+    --global-whitespace-xs: calc(var(--global-baseline) * .5); /* = 4px */
+    --global-whitespace-sm: calc(var(--global-baseline) * 1); /*  = 8px */
+    --global-whitespace-md: calc(var(--global-baseline) * 2); /*  = 16px */
+    --global-whitespace-lg: calc(var(--global-baseline) * 4); /*  = 32px */
+    --global-whitespace-xl: calc(var(--global-whitespace) * 2); /*  = 48px */
+    --global-whitespace-xxl: calc(var(--global-whitespace) * 3); /*  = 72px */
+
+    /* forms */
+    --global-label-color: var(--global-color-neutral-xx-light);
+    --global-placeholder-color: var(--global-color-neutral-x-dark);
+    --global-input-backgroundColor: White;
+    --global-input-color: var(--global-color-neutral-xxxx-light);
+    --global-input-borderColor: var(--global-color-neutral-xxx-dark);
+    --global-input-hover-borderColor: var(--global-color-neutral-xx-dark);
+    --global-input-focus-borderColor: var(--global-color-alpha);
+    --global-input-error-borderColor: var(--global-color-error);
+    --global-input-focus-boxShadowSpread: 0 0 0 3px;
+    --global-input-focus-boxShadowColor: var(--global-color-alpha-x-transparent);
+    --global-input-error-boxShadowColor: var(--global-color-error-x-transparent);
+}
+
+html, body, .map-container, .landing-container {
+    background-color: var(--global-page-backgroundColor);
+    color: var(--global-page-color);
+    font-family: arial, sans-serif;
+    width: 100%;
+    height: 100%;
+}
+
+.landing-container {
+    display: grid;
+    grid-gap: 0;
+    grid-template-rows: 100% 500px;
+    text-align: center;
+}
+
+@media only screen and (orientation:portrait)  {
+    .map-container {
+        display: grid;
+        grid-gap: 0;
+        grid-template-rows: 200px calc(100% - 200px);
+    }
+    .map-item1 {
+        grid-column-start: 1;
+        grid-column-end: 2;
+    }
+} 
+
+@media only screen and (orientation:landscape) {
+    .map-container {
+        display: grid;
+        grid-gap: 0;
+        grid-template-columns: 300px calc(100% - 300px);
+    }
+} 
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+#global {
+    background-color: var(--global-color-neutral-xxx-dark);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: #000000bf;
+	animation-name: fadein;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+	animation-duration: var(--global-transitionDuration-beta);
+}
+.modal-content {
+    background-color: var(--global-color-neutral-xxx-dark);
+    color: var(--global-color-neutral-xxxx-light);
+    margin: 15% auto;
+    padding: 20px;
+    border: var(--global-borderWidth) solid var(--global-color-neutral-xxxx-light);
+    border-radius: var(--global-borderRadius);
+    width: fit-content;
+}
+
+.close {
+    color: var(--global-color-neutral-xxxx-light);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+  
+.close:hover, .close:focus {
+    color: var(--global-color-neutral-xx-light);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+th {
+    text-align: left;
+}
+
+td {
+    text-align: right;
+}
+
+a, a:focus, a:active {
+    color: inherit;
+}
+
+form {
+    margin: 0 auto;
+    width: 300px;
+    text-align: left;
+}
+
+.map-item1 {
+    padding: var(--global-baseline) auto;
+    text-align: center;
+}
+
+.map-item1 > *{
+    margin: var(--global-baseline) auto;
+}
+
+.landing-item1 {
+    background-color: var(--global-color-neutral-xxx-dark);
+}
+
+.c-input {
+    --input-transition: all var(--global-transitionDuration-alpha) var(--global-transitionEasing-out);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 90%;
+    border-radius: var(--input-borderRadius, var(--global-borderRadius));
+    border: var(--input-borderWidth, var(--global-borderWidth)) solid var(--input-borderColor, var(--global-input-borderColor));
+    background-color: var(--input-backgroundColor, var(--global-input-backgroundColor));
+    color: var(--global-input-color);
+    font-family: inherit;
+    font-size: 16px;
+    line-height: calc(var(--global-baseline) * 3);
+    padding: calc(var(--global-baseline) * 1.5 - var(--global-borderWidth)) var(--global-whitespace-md);
+    outline: none;
+    transition: var(--input-transition);
+}
+
+.c-input:hover {
+    border-color: var(--input-hover-borderColor, var(--global-input-hover-borderColor));
+}
+
+.c-input:focus,
+.c-input:active {
+    border-color: var(--global-color-neutral-xxxx-light);
+    box-shadow: var(--global-input-focus-boxShadowSpread) var(--input-focus-boxShadowColor, var(--global-input-focus-boxShadowColor));
+}
+
+.c-button {
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: var(--button-borderRadius, var(--global-borderRadius));
+    border: var(--button-borderWidth, var(--global-borderWidth)) solid var(--button-borderColor, var(--global-color-alpha));
+    background-color: var(--button-backgroundColor, var(--global-color-alpha));
+    color: #fff;
+    padding: calc(var(--global-baseline) * 1.5 - var(--button-borderWidth, var(--global-borderWidth))) var(--global-whitespace-md);
+    line-height: calc(var(--global-baseline) * 3);
+    width: 100%;
+    outline: none;
+    box-shadow: var(--button-boxShadow, 0);
+    transition: all var(--global-transitionDuration-alpha) var(--global-transitionEasing-out);
+    margin: 0 auto;
+}
+
+.c-button:hover {
+    border-color: var(--button-hover-borderColor, var(--global-color-alpha-light));
+    background-color: var(--button-hover-backgroundColor, var(--global-color-alpha-light));
+}
+
+.c-button:focus {
+    background-color: var(--button-focus-backgroundColor, var(--global-color-alpha));
+    border-color: var(--button-focus-borderColor, var(--global-color-alpha-x-dark));
+    box-shadow: var(--global-input-focus-boxShadowSpread) var(--button-focus-boxShadowColor, var(--global-input-focus-boxShadowColor));
+}
+
+.c-button:active {
+    background-color: var(--button-active-backgroundColor, var(--global-color-alpha-dark));
+    border-color: var(--button-active-borderColor, var(--global-color-alpha-dark));
+    box-shadow: var(--button-active-boxShadow, 0);
+}
+
+.c-img {
+    height:55%; 
+    width:auto
+}
+
+tr:nth-child(even) {background-color: var(--global-color-neutral-xx-dark)}
+
+.u-pt-clear {
+    padding-top: 0 !important;
+}
+
+.u-mb-clear {
+    margin-bottom: 0 !important;
+}
+
+.u-mb-xs {
+    margin-bottom: 4px !important;
+}
+
+.u-mb-sm {
+    margin-bottom: 8px !important;
+}
+
+.u-mb-md {
+    margin-bottom: 16px !important;
+}
+
+.u-mb-lg {
+    margin-bottom: 32px !important;
+}
+
+.u-mb-xl {
+    margin-bottom: 48px !important;
+}
+
+@keyframes fadein {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
