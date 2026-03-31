@@ -1,44 +1,220 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minecraft Themed Webpage</title>
-    <style>
-        body {
-            background-color: #1e1e1e;
-            color: #b3ffb3;
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
-        h1, h2 {
-            color: #76ff03;
-        }
-        a {
-            color: #76ff03;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minecraft Server Mods</title>
+  <style>
+    :root {
+      --bg-dark: #11170f;
+      --bg-panel: #1c2a17;
+      --bg-panel-2: #24381e;
+      --accent: #7fbf3f;
+      --accent-dark: #5e8f2f;
+      --text: #e8f5dd;
+      --muted: #b7cba7;
+      --required: #9be564;
+      --optional: #7ec8ff;
+      --danger: #3f2a1f;
+      --border: #35512b;
+      --shadow: rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Trebuchet MS", "Verdana", sans-serif;
+      color: var(--text);
+      background:
+        linear-gradient(180deg, rgba(23, 36, 20, 0.92), rgba(12, 17, 10, 0.96)),
+        repeating-linear-gradient(
+          45deg,
+          #2f4a28 0px,
+          #2f4a28 16px,
+          #35512b 16px,
+          #35512b 32px
+        );
+      display: flex;
+      justify-content: center;
+      padding: 40px 16px;
+    }
+
+    .wrapper {
+      width: min(900px, 100%);
+      background: linear-gradient(180deg, var(--bg-panel), var(--bg-panel-2));
+      border: 3px solid var(--border);
+      box-shadow: 0 14px 30px var(--shadow);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .hero {
+      padding: 28px 24px 20px;
+      border-bottom: 2px solid var(--border);
+      background: linear-gradient(180deg, #2f4c27, #2a4323);
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #dfffcf;
+      background: #3b5f30;
+      border: 1px solid #5f8f4d;
+      padding: 5px 9px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(1.6rem, 2.4vw, 2.3rem);
+      line-height: 1.2;
+      text-shadow: 2px 2px 0 #1a2b14;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      max-width: 72ch;
+    }
+
+    .content {
+      padding: 22px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .section {
+      background: rgba(14, 21, 12, 0.55);
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+    }
+
+    .section h2 {
+      margin: 0 0 12px;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 2px;
+      display: inline-block;
+      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
+    }
+
+    .dot.required { background: var(--required); }
+    .dot.optional { background: var(--optional); }
+
+    .mods {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 10px;
+    }
+
+    .mods li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px;
+      border: 1px solid #446838;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #263b20, #21351c);
+    }
+
+    .mods a {
+      color: #e8ffd8;
+      text-decoration: none;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .mods a:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    .tag {
+      font-size: 0.72rem;
+      color: #e7f7db;
+      border: 1px solid #628d53;
+      background: #36582d;
+      border-radius: 999px;
+      padding: 5px 9px;
+      white-space: nowrap;
+    }
+
+    .footer-note {
+      margin-top: 4px;
+      font-size: 0.9rem;
+      color: #c6dcb8;
+      border-top: 1px dashed #4b6e3d;
+      padding-top: 14px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 640px) {
+      .mods li {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
 </head>
 <body>
-    <h1>Minecraft Server Mod Requirements</h1>
-    <p>These are the mods you must or can run on the server. Please download the specific versions linked below.</p>
-    <h2>Required Mods</h2>
-    <ul>
-        <li><a href="https://www.curseforge.com/minecraft/modpacks/all-the-mons/files/7853411">All The Mons</a></li>
-        <li><a href="https://www.curseforge.com/minecraft/mc-mods/modflared/files/6450016">Modflared</a></li>
-    </ul>
-    <h2>Optional Mods</h2>
-    <ul>
-        <li><a href="https://www.curseforge.com/minecraft/mc-mods/distant-horizons/files/7375285">Distant Horizons</a></li>
-    </ul>
+  <main class="wrapper">
+    <header class="hero">
+      <span class="badge">Minecraft Server Loadout</span>
+      <h1>Mods You Need for the Server</h1>
+      <p class="subtitle">
+        These are the mods you <strong>must</strong> or <strong>can</strong> run on the server.
+        Please download the <strong>specific versions</strong> linked below so everything works correctly.
+      </p>
+    </header>
+
+    <section class="content">
+      <article class="section">
+        <h2><span class="dot required" aria-hidden="true"></span>Required Mods</h2>
+        <ul class="mods">
+          <li>
+            <a href="https://www.curseforge.com/minecraft/modpacks/all-the-mons/files/7853411" target="_blank" rel="noopener noreferrer">All The Mons</a>
+            <span class="tag">Required</span>
+          </li>
+          <li>
+            <a href="https://www.curseforge.com/minecraft/mc-mods/modflared/files/6450016" target="_blank" rel="noopener noreferrer">Modflared</a>
+            <span class="tag">Required</span>
+          </li>
+        </ul>
+      </article>
+
+      <article class="section">
+        <h2><span class="dot optional" aria-hidden="true"></span>Optional Mods</h2>
+        <ul class="mods">
+          <li>
+            <a href="https://www.curseforge.com/minecraft/mc-mods/distant-horizons/files/7375285" target="_blank" rel="noopener noreferrer">Distant Horizons</a>
+            <span class="tag">Optional</span>
+          </li>
+        </ul>
+      </article>
+
+      <p class="footer-note">
+        Tip: Keep these versions pinned. Mixing different versions may prevent joining the server.
+      </p>
+    </section>
+  </main>
 </body>
 </html>
