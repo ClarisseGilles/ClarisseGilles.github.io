@@ -160,6 +160,84 @@
       white-space: nowrap;
     }
 
+    .info-collapse {
+      width: 100%;
+    }
+
+    .info-collapse summary {
+      cursor: pointer;
+      font-weight: 700;
+      color: #e8ffd8;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .info-collapse summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .info-collapse summary::after {
+      content: "▸";
+      font-size: 1rem;
+      color: #d6efc6;
+      transition: transform 0.2s ease;
+    }
+
+    .info-collapse[open] summary::after {
+      transform: rotate(90deg);
+    }
+
+    .args-content {
+      margin-top: 12px;
+      width: 100%;
+      border-top: 1px dashed #4b6e3d;
+      padding-top: 12px;
+    }
+
+    .args-line {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      font-size: 0.9rem;
+      line-height: 1.45;
+      color: #eaffde;
+      background: #1a2815;
+      border: 1px solid #4b6e3d;
+      border-radius: 8px;
+      padding: 10px;
+      word-break: break-word;
+    }
+
+    .copy-btn {
+      margin-top: 10px;
+      border: 1px solid #628d53;
+      background: linear-gradient(180deg, #3b5f30, #2d4925);
+      color: #ecffe0;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .copy-btn:hover {
+      filter: brightness(1.06);
+    }
+
+    .copy-status {
+      margin-left: 8px;
+      font-size: 0.8rem;
+      color: #cde8be;
+    }
+
+    .args-image {
+      margin-top: 12px;
+      max-width: 100%;
+      border: 1px solid #4b6e3d;
+      border-radius: 8px;
+      display: block;
+    }
+
     .footer-note {
       margin-top: 4px;
       font-size: 0.9rem;
@@ -236,6 +314,20 @@
             <a href="https://cobblemon.tools/pokedex/" target="_blank" rel="noopener noreferrer">Cobblemon Pokédex</a>
             <span class="tag">Info</span>
           </li>
+          <li>
+            <details class="info-collapse">
+              <summary>
+                Recommended Java arguments
+                <span class="tag">Info</span>
+              </summary>
+              <div class="args-content">
+                <div id="javaArgsLine" class="args-line">-XX:+UnlockExperimentalVMOptions -XX:+UseZGC -XX:+ZGenerational -XX:+ExplicitGCInvokesConcurrent -XX:+PerfDisableSharedMem -XX:ReservedCodeCacheSize=512M</div>
+                <button type="button" class="copy-btn" onclick="copyJavaArgs()">Copy arguments</button>
+                <span id="copyStatus" class="copy-status" aria-live="polite"></span>
+                <img class="args-image" src="args.png" alt="Java arguments screenshot" />
+              </div>
+            </details>
+          </li>
         </ul>
       </article>
 
@@ -244,5 +336,21 @@
       </p>
     </section>
   </main>
+
+  <script>
+    function copyJavaArgs() {
+      const text = document.getElementById("javaArgsLine").textContent.trim();
+      const status = document.getElementById("copyStatus");
+
+      navigator.clipboard.writeText(text).then(() => {
+        status.textContent = "Copied!";
+        setTimeout(() => {
+          status.textContent = "";
+        }, 1400);
+      }).catch(() => {
+        status.textContent = "Copy failed";
+      });
+    }
+  </script>
 </body>
 </html>
