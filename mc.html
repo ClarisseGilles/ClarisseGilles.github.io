@@ -171,23 +171,27 @@
       list-style: none;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 12px;
+      gap: 10px;
     }
 
     .info-collapse summary::-webkit-details-marker {
       display: none;
     }
 
-    .info-collapse summary::after {
+    .info-collapse summary::before {
       content: "▸";
       font-size: 1rem;
       color: #d6efc6;
       transition: transform 0.2s ease;
+      flex: 0 0 auto;
     }
 
-    .info-collapse[open] summary::after {
+    .info-collapse[open] summary::before {
       transform: rotate(90deg);
+    }
+
+    .info-summary-title {
+      flex: 1 1 auto;
     }
 
     .args-content {
@@ -311,13 +315,13 @@
             <span class="tag">Info</span>
           </li>
           <li>
-            <a href="https://cobblemon.tools/pokedex/" target="_blank" rel="noopener noreferrer">Cobblemon Pokédex</a>
+            <a href="https://www.cobbledex.info/all-mons" target="_blank" rel="noopener noreferrer">Cobblemon Pokédex</a>
             <span class="tag">Info</span>
           </li>
           <li>
             <details class="info-collapse">
               <summary>
-                Recommended Java arguments
+                <span class="info-summary-title">Recommended Java arguments</span>
                 <span class="tag">Info</span>
               </summary>
               <div class="args-content">
