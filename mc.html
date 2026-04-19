@@ -325,7 +325,7 @@
                 <span class="tag">Info</span>
               </summary>
               <div class="args-content">
-                <div id="javaArgsLine" class="args-line">-XX:+UnlockExperimentalVMOptions -XX:+UseZGC -XX:+ZGenerational -XX:+ExplicitGCInvokesConcurrent -XX:+PerfDisableSharedMem -XX:ReservedCodeCacheSize=512M</div>
+                <div id="javaArgsLine" class="args-line">-XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=32M -XX:+UseStringDeduplication</div>
                 <button type="button" class="copy-btn" onclick="copyJavaArgs()">Copy arguments</button>
                 <span id="copyStatus" class="copy-status" aria-live="polite"></span>
                 <img class="args-image" src="args.png" alt="Java arguments screenshot" />
