@@ -104,6 +104,68 @@
     }
 
     .nav { margin-top: 12px; font-size: 0.95rem; }
+
+    details {
+      border: 1px solid #446838;
+      border-radius: 8px;
+      background: rgba(10, 16, 8, 0.55);
+      margin-bottom: 10px;
+      padding: 0 12px;
+    }
+
+    details[open] {
+      padding-bottom: 12px;
+    }
+
+    summary {
+      cursor: pointer;
+      color: #ecffe0;
+      font-weight: 600;
+      padding: 12px 0;
+      list-style-position: outside;
+    }
+
+    summary::-webkit-details-marker {
+      color: var(--accent);
+    }
+
+    .changelog-body {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.55;
+      white-space: pre-wrap;
+      margin: 0;
+      padding: 0 0 4px;
+    }
+
+    .changelog-body h2,
+    .changelog-body h3,
+    .changelog-body h4 {
+      color: #ecffe0;
+      margin: 16px 0 8px;
+    }
+
+    .changelog-body h2:first-child,
+    .changelog-body h3:first-child,
+    .changelog-body h4:first-child {
+      margin-top: 0;
+    }
+
+    .changelog-links {
+      margin-top: 8px;
+      font-size: 0.88rem;
+    }
+
+    .status-text {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin: 0;
+    }
+
+    .nested-changelog details {
+      margin-left: 8px;
+      background: rgba(8, 12, 7, 0.65);
+    }
   </style>
 </head>
 <body>
@@ -129,23 +191,12 @@
               <th>Package name</th>
               <th>Filter</th>
               <th>Latest file ID</th>
+              <th>Changelog</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="mods-table-body">
             <tr>
-              <td><code>1.21.1/neoforge/distant-horizons</code></td>
-              <td>NeoForge, Minecraft 1.21.1</td>
-              <td><a href="registry/1.21.1/neoforge/distant-horizons.json">8037637</a></td>
-            </tr>
-            <tr>
-              <td><code>1.21.1/neoforge/simple-voice-chat</code></td>
-              <td>NeoForge, Minecraft 1.21.1</td>
-              <td><a href="registry/1.21.1/neoforge/simple-voice-chat.json">8037683</a></td>
-            </tr>
-            <tr>
-              <td><code>1.21.1/neoforge/all-the-mons</code></td>
-              <td>NeoForge modpack, Minecraft 1.21.1</td>
-              <td><a href="registry/1.21.1/neoforge/all-the-mons.json">8089924</a></td>
+              <td colspan="4"><p class="status-text">Loading registry index…</p></td>
             </tr>
           </tbody>
         </table>
@@ -153,27 +204,57 @@
       </article>
 
       <article class="section">
+        <h2>Changelogs</h2>
+        <p>
+          CurseForge release notes mirrored from the registry updater. Expand a mod to browse file
+          versions, similar to the collapsible sections Renovate adds to update PRs.
+        </p>
+        <div id="changelog-list">
+          <p class="status-text">Loading changelogs…</p>
+        </div>
+      </article>
+
+      <article class="section">
         <h2>Renovate setup (consumer repository)</h2>
-        <p>Add this custom datasource to your <code>renovate.json</code> in the repository you want Renovate to update:</p>
+        <p>
+          Copy <a href="registry/renovate-example.json">registry/renovate-example.json</a> into your
+          repository as <code>renovate.json</code>, or merge the relevant sections into an existing
+          config. This repository uses the same settings in its root <code>renovate.json</code> to
+          keep <code>mc.html</code> mod links up to date.
+        </p>
         <pre>{
+  "extends": ["config:recommended", ":rebaseStalePrs"],
+  "enabledManagers": ["custom.regex"],
   "customDatasources": {
     "clarissegilles-curseforge": {
       "defaultRegistryUrlTemplate": "https://clarissegilles.github.io/registry/{{packageName}}.json",
       "transformTemplates": ["$"]
     }
-  }
+  },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/mc\\.html$/"],
+      "matchStrings": [
+        "href=\"https://www\\.curseforge\\.com/minecraft/(?:modpacks|mc-mods)/(?<slug>[^/]+)/files/(?<currentValue>\\d+)\""
+      ],
+      "datasourceTemplate": "custom.clarissegilles-curseforge",
+      "depNameTemplate": "1.21.1/neoforge/{{slug}}",
+      "registryUrlTemplate": "https://clarissegilles.github.io/registry/1.21.1/neoforge/{{slug}}.json",
+      "versioningTemplate": "loose"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchDatasources": ["custom.clarissegilles-curseforge"],
+      "maxMajorIncrement": 0
+    }
+  ]
 }</pre>
-        <p>Then track file IDs in a manifest like <code>mods.json</code>:</p>
-        <pre>{
-  "1.21.1/neoforge/distant-horizons": {
-    "fileId": "8037637"
-  }
-}</pre>
-        <p>This repository includes a <a href="renovate.json">renovate.json</a> that keeps <code>mc.html</code> mod links up to date automatically.</p>
         <p>
-          Point each regex manager at the registry JSON with
-          <code>registryUrlTemplate</code> (for example
-          <code>https://clarissegilles.github.io/registry/1.21.1/neoforge/{{slug}}.json</code>).
+          Point each regex manager at the registry JSON with <code>registryUrlTemplate</code>. Use
+          <code>versioning: loose</code> and <code>maxMajorIncrement: 0</code> because CurseForge file
+          IDs are opaque integers, not semver.
         </p>
       </article>
 
@@ -186,9 +267,8 @@
           <code>sourceDirectory</code> so Renovate can embed release notes in PRs.
         </p>
         <p>
-          Enable this in your consumer repo with
-          <code>"fetchChangeLogs": "pr"</code> for the custom datasource (included in the example config).
-          Changelog sections use the CurseForge file ID as the heading, for example <code>## 8601207</code>.
+          Changelog sections use the CurseForge file ID as the heading, for example
+          <code>## 8601207</code>. View them on this page under <em>Changelogs</em> above.
         </p>
         <p>
           Renovate needs at least two entries in each registry <code>releases</code> array (current and
@@ -215,8 +295,12 @@
   "sourceDirectory": "changelogs/1.21.1/neoforge/distant-horizons",
   "releases": [
     {
+      "version": "8389148",
+      "releaseTimestamp": "2026-07-07T20:28:23.42Z",
+      "changelogUrl": "https://www.curseforge.com/minecraft/mc-mods/distant-horizons/files/8389148"
+    },
+    {
       "version": "8037637",
-      "releaseTimestamp": "2025-08-01T12:34:56Z",
       "changelogUrl": "https://www.curseforge.com/minecraft/mc-mods/distant-horizons/files/8037637"
     }
   ],
@@ -226,5 +310,210 @@
       </article>
     </section>
   </main>
+  <script>
+    function escapeHtml(value) {
+      return value
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function renderMarkdown(markdown) {
+      const lines = markdown.replace(/\r\n/g, "\n").split("\n");
+      const parts = [];
+      let paragraph = [];
+
+      function flushParagraph() {
+        if (!paragraph.length) {
+          return;
+        }
+        parts.push(`<p>${escapeHtml(paragraph.join("\n"))}</p>`);
+        paragraph = [];
+      }
+
+      for (const line of lines) {
+        if (/^####\s+/.test(line)) {
+          flushParagraph();
+          parts.push(`<h4>${escapeHtml(line.replace(/^####\s+/, ""))}</h4>`);
+          continue;
+        }
+        if (/^###\s+/.test(line)) {
+          flushParagraph();
+          parts.push(`<h3>${escapeHtml(line.replace(/^###\s+/, ""))}</h3>`);
+          continue;
+        }
+        if (/^##\s+/.test(line)) {
+          flushParagraph();
+          parts.push(`<h3>${escapeHtml(line.replace(/^##\s+/, ""))}</h3>`);
+          continue;
+        }
+        if (/^#\s+/.test(line)) {
+          flushParagraph();
+          parts.push(`<h2>${escapeHtml(line.replace(/^#\s+/, ""))}</h2>`);
+          continue;
+        }
+        if (!line.trim()) {
+          flushParagraph();
+          continue;
+        }
+        paragraph.push(line);
+      }
+
+      flushParagraph();
+      return parts.join("");
+    }
+
+    function parseChangelogSections(markdown) {
+      const lines = markdown.replace(/\r\n/g, "\n").split("\n");
+      const sections = [];
+      let title = "";
+      let current = null;
+
+      for (const line of lines) {
+        if (/^##\s+/.test(line)) {
+          if (current) {
+            sections.push(current);
+          }
+          current = {
+            version: line.replace(/^##\s+/, "").trim(),
+            body: "",
+          };
+          continue;
+        }
+        if (/^#\s+/.test(line) && !current) {
+          title = line.replace(/^#\s+/, "").trim();
+          continue;
+        }
+        if (current) {
+          current.body += `${line}\n`;
+        }
+      }
+
+      if (current) {
+        sections.push(current);
+      }
+
+      return { title, sections };
+    }
+
+    function changelogPath(mod) {
+      return `${mod.sourceDirectory}/CHANGELOG.md`;
+    }
+
+    function filterLabel(mod) {
+      const loader = mod.modLoader || "mod loader";
+      const version = mod.gameVersion || "Minecraft";
+      const type = mod.projectType === "modpack" ? "modpack, " : "";
+      return `${loader}, ${type}${version}`;
+    }
+
+    function renderModsTable(mods) {
+      const tbody = document.getElementById("mods-table-body");
+      tbody.innerHTML = mods
+        .map((mod) => {
+          const registryPath = mod.registryUrl.replace(/^https:\/\/clarissegilles\.github\.io\/registry\//, "registry/");
+          const changelogHref = changelogPath(mod);
+          return `<tr>
+              <td><code>${escapeHtml(mod.packageName)}</code></td>
+              <td>${escapeHtml(filterLabel(mod))}</td>
+              <td><a href="${escapeHtml(registryPath)}">${escapeHtml(mod.latestVersion)}</a></td>
+              <td><a href="#changelog-${escapeHtml(mod.slug)}">View</a> · <a href="${escapeHtml(changelogHref)}">Markdown</a></td>
+            </tr>`;
+        })
+        .join("");
+    }
+
+    async function renderChangelogs(mods) {
+      const container = document.getElementById("changelog-list");
+      container.innerHTML = "";
+
+      for (const mod of mods) {
+        const modDetails = document.createElement("details");
+        modDetails.id = `changelog-${mod.slug}`;
+        modDetails.open = mods.length === 1;
+
+        const modSummary = document.createElement("summary");
+        modSummary.textContent = `${mod.name} (${mod.packageName})`;
+        modDetails.appendChild(modSummary);
+
+        const nested = document.createElement("div");
+        nested.className = "nested-changelog";
+
+        try {
+          const response = await fetch(changelogPath(mod));
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+          }
+          const markdown = await response.text();
+          const { title, sections } = parseChangelogSections(markdown);
+
+          if (title) {
+            const intro = document.createElement("p");
+            intro.className = "status-text";
+            intro.textContent = title;
+            nested.appendChild(intro);
+          }
+
+          if (!sections.length) {
+            const body = document.createElement("div");
+            body.className = "changelog-body";
+            body.innerHTML = renderMarkdown(markdown);
+            nested.appendChild(body);
+          } else {
+            for (const [index, section] of sections.entries()) {
+              const versionDetails = document.createElement("details");
+              if (index === 0) {
+                versionDetails.open = true;
+              }
+
+              const versionSummary = document.createElement("summary");
+              versionSummary.textContent = `File ${section.version}`;
+              versionDetails.appendChild(versionSummary);
+
+              const body = document.createElement("div");
+              body.className = "changelog-body";
+              body.innerHTML = renderMarkdown(section.body.trim());
+              versionDetails.appendChild(body);
+              nested.appendChild(versionDetails);
+            }
+          }
+
+          const links = document.createElement("p");
+          links.className = "changelog-links";
+          links.innerHTML = `<a href="${escapeHtml(changelogPath(mod))}">Open CHANGELOG.md</a> · <a href="${escapeHtml(mod.changelogUrl)}">Registry changelog URL</a>`;
+          nested.appendChild(links);
+        } catch (error) {
+          const message = document.createElement("p");
+          message.className = "status-text";
+          message.textContent = `Could not load changelog for ${mod.name}.`;
+          nested.appendChild(message);
+        }
+
+        modDetails.appendChild(nested);
+        container.appendChild(modDetails);
+      }
+    }
+
+    async function loadRegistryPage() {
+      try {
+        const response = await fetch("registry/index.json");
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        const index = await response.json();
+        const mods = index.mods || [];
+        renderModsTable(mods);
+        await renderChangelogs(mods);
+      } catch (error) {
+        document.getElementById("mods-table-body").innerHTML =
+          '<tr><td colspan="4"><p class="status-text">Could not load registry index.</p></td></tr>';
+        document.getElementById("changelog-list").innerHTML =
+          '<p class="status-text">Could not load changelogs.</p>';
+      }
+    }
+
+    loadRegistryPage();
+  </script>
 </body>
 </html>
