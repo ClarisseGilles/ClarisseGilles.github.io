@@ -36,6 +36,11 @@ PROJECT_TYPE_PATHS = {
     "modpack": "modpacks",
 }
 
+CHANGELOG_PLACEHOLDERS = (
+    "_Changelog will be populated by the CurseForge registry updater._",
+    "_No changelog provided on CurseForge._",
+)
+
 
 class HTMLToText(HTMLParser):
     def __init__(self) -> None:
@@ -344,21 +349,33 @@ def resolve_latest_file(
     )
 
 
+def remove_placeholder_sections(content: str) -> str:
+    if not content.strip():
+        return content
+
+    placeholder_pattern = "|".join(re.escape(marker) for marker in CHANGELOG_PLACEHOLDERS)
+    cleaned = re.sub(
+        rf"(?ms)^##\s+[^\n]+\n+(?:{placeholder_pattern})\s*\n+",
+        "",
+        content,
+    )
+    return cleaned.strip() + "\n" if cleaned.strip() else ""
+
+
 def upsert_changelog_section(
     existing_content: str,
     version: str,
     display_name: str,
     body: str,
 ) -> str:
+    existing_content = remove_placeholder_sections(existing_content)
     section_header = f"## {version}"
-    section_lines = [
-        f"# {display_name}",
-        "",
-        section_header,
-        "",
-        body.strip() if body.strip() else "_No changelog provided on CurseForge._",
-        "",
-    ]
+    section_body = body.strip()
+    section_lines = [f"# {display_name}", "", section_header]
+    if section_body:
+        section_lines.extend(["", section_body, ""])
+    else:
+        section_lines.append("")
 
     if not existing_content.strip():
         return "\n".join(section_lines).strip() + "\n"
@@ -383,6 +400,11 @@ def upsert_changelog_section(
         return updated.strip() + "\n"
 
     return ("\n".join(section_lines).strip() + "\n\n" + existing_content.strip()).strip() + "\n"
+
+
+def finalize_changelog_content(content: str) -> str:
+    cleaned = remove_placeholder_sections(content)
+    return cleaned if cleaned.endswith("\n") or not cleaned else cleaned + "\n"
 
 
 def build_release(
@@ -519,11 +541,13 @@ def main() -> int:
             f"{mod_info.get('name')} ({mod_config['modLoader']} {mod_config['gameVersion']})"
         )
         changelog_path.write_text(
-            upsert_changelog_section(
-                existing_changelog,
-                str(file_id),
-                display_name,
-                changelog_body,
+            finalize_changelog_content(
+                upsert_changelog_section(
+                    existing_changelog,
+                    str(file_id),
+                    display_name,
+                    changelog_body,
+                )
             ),
             encoding="utf-8",
         )

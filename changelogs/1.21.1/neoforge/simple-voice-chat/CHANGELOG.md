@@ -11,6 +11,3 @@ Fixed voice chat breaking if Minecrafts audio system is not initialized
 Fixed potential OpenAL resource leaks
 
 Fixed incorrect OpenAL version detection
-## 8037683
-
-_Changelog will be populated by the CurseForge registry updater._

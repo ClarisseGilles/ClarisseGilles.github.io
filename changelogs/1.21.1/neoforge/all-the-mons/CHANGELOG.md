@@ -85,6 +85,3 @@ Updated PT_BR localization (PrincessStellar)
 Neoforge Version is21.1.248
 
 ALWAYS REMEMBER TO BACKUP BEFORE UPDATING
-## 8089924
-
-_Changelog will be populated by the CurseForge registry updater._
