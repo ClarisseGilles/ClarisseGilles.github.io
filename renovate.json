@@ -16,7 +16,7 @@
       ],
       "datasourceTemplate": "custom.clarissegilles-curseforge",
       "depNameTemplate": "1.21.1/neoforge/{{slug}}",
-      "versioningTemplate": "loose"
+      "versioningTemplate": "regex:^(?<version>\\d+)$"
     }
   ],
   "packageRules": [
