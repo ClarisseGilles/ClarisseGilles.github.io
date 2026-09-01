@@ -171,9 +171,9 @@
 }</pre>
         <p>This repository includes a <a href="renovate.json">renovate.json</a> that keeps <code>mc.html</code> mod links up to date automatically.</p>
         <p>
-          Set both <code>depNameTemplate</code> and <code>packageNameTemplate</code> to the registry path
-          (for example <code>1.21.1/neoforge/{{slug}}</code>). The custom datasource uses
-          <code>{{packageName}}</code> in its registry URL, not <code>{{depName}}</code>.
+          Point each regex manager at the registry JSON with
+          <code>registryUrlTemplate</code> (for example
+          <code>https://clarissegilles.github.io/registry/1.21.1/neoforge/{{slug}}.json</code>).
         </p>
       </article>
 
@@ -217,7 +217,7 @@
   ],
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/distant-horizons"
 }</pre>
-        <p>Versions are CurseForge file IDs (not semver). Use <code>versioning: loose</code> or <code>regex:^(?&lt;major&gt;\d+)$</code> in Renovate.</p>
+        <p>Versions are CurseForge file IDs (not semver). Use <code>versioning: loose</code> and set <code>maxMajorIncrement: 0</code> so Renovate does not treat large file ID jumps as forbidden major bumps.</p>
       </article>
     </section>
   </main>
