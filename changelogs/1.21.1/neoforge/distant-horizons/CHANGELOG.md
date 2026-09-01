@@ -79,6 +79,3 @@ Fix 1.12.2 beacon tint color using a client-only method
 Fix a rare null pointer in Blaze terrain rendering
 
 Fix Immersive Portals mixin warning when Immersive Portals isn't present
-## 8037637
-
-_Changelog will be populated by the CurseForge registry updater._
