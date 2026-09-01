@@ -28,6 +28,10 @@
         "Server"
       ],
       "modLoaders": []
+    },
+    {
+      "version": "7740400",
+      "changelogUrl": "https://www.curseforge.com/minecraft/mc-mods/lithium/files/7740400"
     }
   ]
 }
