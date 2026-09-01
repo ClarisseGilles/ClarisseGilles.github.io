@@ -17,17 +17,6 @@
       "datasourceTemplate": "custom.clarissegilles-curseforge",
       "depNameTemplate": "1.21.1/neoforge/{{slug}}",
       "versioningTemplate": "loose"
-    },
-    {
-      "customType": "regex",
-      "description": "Track CurseForge file IDs in a mods manifest (consumer repos)",
-      "managerFilePatterns": ["/mods\\.json$/"],
-      "matchStrings": [
-        "\"(?<depName>[^\"]+)\":\\s*\\{[^}]*\"fileId\":\\s*\"(?<currentValue>\\d+)\""
-      ],
-      "datasourceTemplate": "custom.clarissegilles-curseforge",
-      "depNameTemplate": "{{depName}}",
-      "versioningTemplate": "loose"
     }
   ],
   "packageRules": [
@@ -39,6 +28,7 @@
     {
       "description": "Group CurseForge mod updates into one PR",
       "matchDatasources": ["custom.clarissegilles-curseforge"],
+      "matchFileNames": ["mc.html"],
       "groupName": "curseforge mods"
     }
   ]

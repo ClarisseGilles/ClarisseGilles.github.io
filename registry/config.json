@@ -6,19 +6,19 @@
       "slug": "distant-horizons",
       "projectType": "mod",
       "modLoader": "NeoForge",
-      "gameVersion": "1.20"
+      "gameVersion": "1.21.1"
     },
     {
       "slug": "simple-voice-chat",
       "projectType": "mod",
       "modLoader": "NeoForge",
-      "gameVersion": "1.20"
+      "gameVersion": "1.21.1"
     },
     {
       "slug": "all-the-mons",
       "projectType": "modpack",
       "modLoader": "NeoForge",
-      "gameVersion": "1.20"
+      "gameVersion": "1.21.1"
     }
   ]
 }

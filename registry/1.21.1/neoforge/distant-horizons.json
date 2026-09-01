@@ -1,17 +1,17 @@
 {
-  "packageName": "1.20/neoforge/distant-horizons",
+  "packageName": "1.21.1/neoforge/distant-horizons",
   "mod": {
     "slug": "distant-horizons",
     "name": "Distant Horizons",
     "projectType": "mod",
     "modLoader": "NeoForge",
-    "gameVersion": "1.20"
+    "gameVersion": "1.21.1"
   },
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/distant-horizons",
-  "registryUrl": "https://clarissegilles.github.io/registry/1.20/neoforge/distant-horizons.json",
+  "registryUrl": "https://clarissegilles.github.io/registry/1.21.1/neoforge/distant-horizons.json",
   "sourceUrl": "https://github.com/ClarisseGilles/ClarisseGilles.github.io",
-  "sourceDirectory": "changelogs/1.20/neoforge/distant-horizons",
-  "changelogUrl": "https://clarissegilles.github.io/changelogs/1.20/neoforge/distant-horizons/CHANGELOG.md",
+  "sourceDirectory": "changelogs/1.21.1/neoforge/distant-horizons",
+  "changelogUrl": "https://clarissegilles.github.io/changelogs/1.21.1/neoforge/distant-horizons/CHANGELOG.md",
   "updatedAt": "2026-09-01T00:00:00+00:00",
   "releases": [
     {
