@@ -2,7 +2,7 @@
   "description": "CurseForge mod registry for Renovate custom datasources",
   "baseUrl": "https://clarissegilles.github.io/registry",
   "sourceUrl": "https://github.com/ClarisseGilles/ClarisseGilles.github.io",
-  "updatedAt": "2026-09-01T14:42:12+00:00",
+  "updatedAt": "2026-09-01T14:58:05+00:00",
   "mods": [
     {
       "packageName": "1.21.1/neoforge/distant-horizons",
@@ -15,7 +15,7 @@
       "registryUrl": "https://clarissegilles.github.io/registry/1.21.1/neoforge/distant-horizons.json",
       "changelogUrl": "https://clarissegilles.github.io/changelogs/1.21.1/neoforge/distant-horizons/CHANGELOG.md",
       "sourceDirectory": "changelogs/1.21.1/neoforge/distant-horizons",
-      "updatedAt": "2026-09-01T14:42:11+00:00"
+      "updatedAt": "2026-09-01T14:58:05+00:00"
     },
     {
       "packageName": "1.21.1/neoforge/simple-voice-chat",
@@ -24,11 +24,11 @@
       "projectType": "mod",
       "modLoader": "NeoForge",
       "gameVersion": "1.21.1",
-      "latestVersion": "8464278",
+      "latestVersion": "8601207",
       "registryUrl": "https://clarissegilles.github.io/registry/1.21.1/neoforge/simple-voice-chat.json",
       "changelogUrl": "https://clarissegilles.github.io/changelogs/1.21.1/neoforge/simple-voice-chat/CHANGELOG.md",
       "sourceDirectory": "changelogs/1.21.1/neoforge/simple-voice-chat",
-      "updatedAt": "2026-09-01T14:42:11+00:00"
+      "updatedAt": "2026-09-01T14:58:05+00:00"
     },
     {
       "packageName": "1.21.1/neoforge/all-the-mons",
@@ -41,7 +41,7 @@
       "registryUrl": "https://clarissegilles.github.io/registry/1.21.1/neoforge/all-the-mons.json",
       "changelogUrl": "https://clarissegilles.github.io/changelogs/1.21.1/neoforge/all-the-mons/CHANGELOG.md",
       "sourceDirectory": "changelogs/1.21.1/neoforge/all-the-mons",
-      "updatedAt": "2026-09-01T14:42:12+00:00"
+      "updatedAt": "2026-09-01T14:58:05+00:00"
     }
   ]
 }
