@@ -171,8 +171,9 @@
 }</pre>
         <p>This repository includes a <a href="renovate.json">renovate.json</a> that keeps <code>mc.html</code> mod links up to date automatically.</p>
         <p>
-          For Distant Horizons NeoForge 1.20 updates only, set
-          <code>depName</code> to <code>1.21.1/neoforge/distant-horizons</code>.
+          Set both <code>depNameTemplate</code> and <code>packageNameTemplate</code> to the registry path
+          (for example <code>1.21.1/neoforge/{{slug}}</code>). The custom datasource uses
+          <code>{{packageName}}</code> in its registry URL, not <code>{{depName}}</code>.
         </p>
       </article>
 
