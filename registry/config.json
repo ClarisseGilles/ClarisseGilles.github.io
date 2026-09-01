@@ -19,6 +19,24 @@
       "projectType": "modpack",
       "modLoader": "NeoForge",
       "gameVersion": "1.21.1"
+    },
+    {
+      "slug": "c2me",
+      "projectType": "mod",
+      "modLoader": "NeoForge",
+      "gameVersion": "1.21.1"
+    },
+    {
+      "slug": "noisiumforked",
+      "projectType": "mod",
+      "modLoader": "NeoForge",
+      "gameVersion": "1.21.1"
+    },
+    {
+      "slug": "lithium",
+      "projectType": "mod",
+      "modLoader": "NeoForge",
+      "gameVersion": "1.21.1"
     }
   ]
 }

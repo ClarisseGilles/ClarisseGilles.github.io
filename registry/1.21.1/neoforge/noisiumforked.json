@@ -1,0 +1,31 @@
+{
+  "packageName": "1.21.1/neoforge/noisiumforked",
+  "mod": {
+    "id": 1357563,
+    "slug": "noisiumforked",
+    "name": "NoisiumForked",
+    "projectType": "mod",
+    "modLoader": "NeoForge",
+    "gameVersion": "1.21.1"
+  },
+  "homepage": "https://www.curseforge.com/minecraft/mc-mods/noisiumforked",
+  "registryUrl": "https://clarissegilles.github.io/registry/1.21.1/neoforge/noisiumforked.json",
+  "sourceUrl": "https://github.com/ClarisseGilles/ClarisseGilles.github.io",
+  "sourceDirectory": "changelogs/1.21.1/neoforge/noisiumforked",
+  "changelogUrl": "https://clarissegilles.github.io/changelogs/1.21.1/neoforge/noisiumforked/CHANGELOG.md",
+  "updatedAt": "2026-09-01T17:30:00+00:00",
+  "releases": [
+    {
+      "version": "7569595",
+      "changelogUrl": "https://www.curseforge.com/minecraft/mc-mods/noisiumforked/files/7569595",
+      "displayName": "noisium-neoforge-2.7.0+mc1.21-1.21.1",
+      "fileName": "noisium-neoforge-2.7.0+mc1.21-1.21.1.jar",
+      "gameVersions": [
+        "1.21",
+        "1.21.1",
+        "NeoForge"
+      ],
+      "modLoaders": []
+    }
+  ]
+}
