@@ -1,0 +1,35 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "customDatasources": {
+    "clarissegilles-curseforge": {
+      "defaultRegistryUrlTemplate": "https://clarissegilles.github.io/registry/{{packageName}}.json",
+      "transformTemplates": ["$"]
+    }
+  },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Track CurseForge file IDs in mc.html mod links",
+      "managerFilePatterns": ["/mc\\.html$/"],
+      "matchStrings": [
+        "href=\"https://www\\.curseforge\\.com/minecraft/(?:modpacks|mc-mods)/(?<slug>[^/]+)/files/(?<currentValue>\\d+)\""
+      ],
+      "datasourceTemplate": "custom.clarissegilles-curseforge",
+      "depNameTemplate": "1.21.1/neoforge/{{slug}}",
+      "versioningTemplate": "loose"
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "Embed CurseForge changelogs from the registry GitHub repo",
+      "matchDatasources": ["custom.clarissegilles-curseforge"],
+      "fetchChangeLogs": "pr"
+    },
+    {
+      "description": "Group CurseForge mod updates into one PR",
+      "matchDatasources": ["custom.clarissegilles-curseforge"],
+      "matchFileNames": ["mc.html"],
+      "groupName": "curseforge mods"
+    }
+  ]
+}

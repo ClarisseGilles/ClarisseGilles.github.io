@@ -1,0 +1,44 @@
+{
+  "description": "CurseForge mod registry for Renovate custom datasources",
+  "baseUrl": "https://clarissegilles.github.io/registry",
+  "sourceUrl": "https://github.com/ClarisseGilles/ClarisseGilles.github.io",
+  "updatedAt": "2026-09-01T00:00:00+00:00",
+  "mods": [
+    {
+      "packageName": "1.21.1/neoforge/distant-horizons",
+      "slug": "distant-horizons",
+      "name": "Distant Horizons",
+      "projectType": "mod",
+      "modLoader": "NeoForge",
+      "gameVersion": "1.21.1",
+      "latestVersion": "8037637",
+      "registryUrl": "https://clarissegilles.github.io/registry/1.21.1/neoforge/distant-horizons.json",
+      "changelogUrl": "https://clarissegilles.github.io/changelogs/1.21.1/neoforge/distant-horizons/CHANGELOG.md",
+      "sourceDirectory": "changelogs/1.21.1/neoforge/distant-horizons"
+    },
+    {
+      "packageName": "1.21.1/neoforge/simple-voice-chat",
+      "slug": "simple-voice-chat",
+      "name": "Simple Voice Chat",
+      "projectType": "mod",
+      "modLoader": "NeoForge",
+      "gameVersion": "1.21.1",
+      "latestVersion": "8037683",
+      "registryUrl": "https://clarissegilles.github.io/registry/1.21.1/neoforge/simple-voice-chat.json",
+      "changelogUrl": "https://clarissegilles.github.io/changelogs/1.21.1/neoforge/simple-voice-chat/CHANGELOG.md",
+      "sourceDirectory": "changelogs/1.21.1/neoforge/simple-voice-chat"
+    },
+    {
+      "packageName": "1.21.1/neoforge/all-the-mons",
+      "slug": "all-the-mons",
+      "name": "All the Mons",
+      "projectType": "modpack",
+      "modLoader": "NeoForge",
+      "gameVersion": "1.21.1",
+      "latestVersion": "8089924",
+      "registryUrl": "https://clarissegilles.github.io/registry/1.21.1/neoforge/all-the-mons.json",
+      "changelogUrl": "https://clarissegilles.github.io/changelogs/1.21.1/neoforge/all-the-mons/CHANGELOG.md",
+      "sourceDirectory": "changelogs/1.21.1/neoforge/all-the-mons"
+    }
+  ]
+}

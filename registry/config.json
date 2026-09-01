@@ -1,0 +1,24 @@
+{
+  "baseUrl": "https://clarissegilles.github.io/registry",
+  "sourceUrl": "https://github.com/ClarisseGilles/ClarisseGilles.github.io",
+  "mods": [
+    {
+      "slug": "distant-horizons",
+      "projectType": "mod",
+      "modLoader": "NeoForge",
+      "gameVersion": "1.21.1"
+    },
+    {
+      "slug": "simple-voice-chat",
+      "projectType": "mod",
+      "modLoader": "NeoForge",
+      "gameVersion": "1.21.1"
+    },
+    {
+      "slug": "all-the-mons",
+      "projectType": "modpack",
+      "modLoader": "NeoForge",
+      "gameVersion": "1.21.1"
+    }
+  ]
+}

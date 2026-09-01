@@ -1,0 +1,22 @@
+{
+  "packageName": "1.21.1/neoforge/simple-voice-chat",
+  "mod": {
+    "slug": "simple-voice-chat",
+    "name": "Simple Voice Chat",
+    "projectType": "mod",
+    "modLoader": "NeoForge",
+    "gameVersion": "1.21.1"
+  },
+  "homepage": "https://www.curseforge.com/minecraft/mc-mods/simple-voice-chat",
+  "registryUrl": "https://clarissegilles.github.io/registry/1.21.1/neoforge/simple-voice-chat.json",
+  "sourceUrl": "https://github.com/ClarisseGilles/ClarisseGilles.github.io",
+  "sourceDirectory": "changelogs/1.21.1/neoforge/simple-voice-chat",
+  "changelogUrl": "https://clarissegilles.github.io/changelogs/1.21.1/neoforge/simple-voice-chat/CHANGELOG.md",
+  "updatedAt": "2026-09-01T00:00:00+00:00",
+  "releases": [
+    {
+      "version": "8037683",
+      "changelogUrl": "https://www.curseforge.com/minecraft/mc-mods/simple-voice-chat/files/8037683"
+    }
+  ]
+}
