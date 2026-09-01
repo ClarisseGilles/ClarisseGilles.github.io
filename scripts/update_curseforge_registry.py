@@ -36,16 +36,6 @@ PROJECT_TYPE_PATHS = {
     "modpack": "modpacks",
 }
 
-SERVER_PLUGIN_MARKERS = (
-    "bukkit",
-    "spigot",
-    "paper",
-    "purpur",
-    "velocity",
-    "waterfall",
-    "bungeecord",
-)
-
 
 class HTMLToText(HTMLParser):
     def __init__(self) -> None:
@@ -94,6 +84,26 @@ def api_request(path: str, api_key: str) -> dict:
         return json.load(response)
 
 
+def mod_loader_type_id(mod_loader: str) -> int:
+    return MOD_LOADER_TYPES.get(mod_loader.lower(), 0)
+
+
+def loader_type_label(loader_type: object) -> str:
+    if isinstance(loader_type, int):
+        return MOD_LOADER_TYPE_NAMES.get(loader_type, str(loader_type))
+    return str(loader_type)
+
+
+def loader_type_matches(loader_type: object, mod_loader: str) -> bool:
+    expected_id = mod_loader_type_id(mod_loader)
+    if expected_id == 0:
+        return True
+    if isinstance(loader_type, int):
+        return loader_type == expected_id
+    normalized = str(loader_type).lower()
+    return normalized == mod_loader.lower() or normalized == MOD_LOADER_TYPE_NAMES.get(expected_id, "")
+
+
 def search_mod(
     slug: str,
     project_type: str,
@@ -110,7 +120,7 @@ def search_mod(
         params["classId"] = str(MODPACK_CLASS_ID)
     if game_version:
         params["gameVersion"] = game_version
-    loader_type = MOD_LOADER_TYPES.get(mod_loader.lower(), 0)
+    loader_type = mod_loader_type_id(mod_loader)
     if loader_type:
         params["modLoaderType"] = str(loader_type)
 
@@ -155,65 +165,24 @@ def file_game_versions(file_info: dict) -> list[str]:
     return versions
 
 
-def file_label(file_info: dict) -> str:
-    return " ".join(
-        part
-        for part in (
-            str(file_info.get("id", "")),
-            file_info.get("displayName", ""),
-            file_info.get("fileName", ""),
-        )
-        if part
-    ).lower()
+def file_loader_types(file_info: dict) -> list[object]:
+    return [loader.get("type") for loader in (file_info.get("modLoaders") or []) if loader.get("type") is not None]
 
 
-def is_server_plugin_file(file_info: dict) -> bool:
-    label = file_label(file_info)
-    return any(marker in label for marker in SERVER_PLUGIN_MARKERS)
+def file_has_loader_metadata(file_info: dict, mod_loader: str) -> bool:
+    return any(loader_type_matches(loader_type, mod_loader) for loader_type in file_loader_types(file_info))
 
 
-def loader_type_matches(loader_type: object, mod_loader: str) -> bool:
-    expected = mod_loader.lower()
-    expected_id = MOD_LOADER_TYPES.get(expected)
-    if isinstance(loader_type, int):
-        return loader_type == expected_id
-    normalized = str(loader_type).lower()
-    return normalized == expected or normalized == str(expected_id)
-
-
-def loader_matches(file_loaders: list[dict], mod_loader: str) -> bool:
-    if not mod_loader:
-        return True
-    for loader in file_loaders:
-        if loader_type_matches(loader.get("type"), mod_loader):
-            return True
-    return False
-
-
-def loader_mentioned_in_file(file_info: dict, mod_loader: str) -> bool:
-    label = file_label(file_info)
-    loader = mod_loader.lower()
-    aliases = {
-        "neoforge": ("neoforge", "neo-forge", "neo_forge"),
-        "forge": ("forge",),
-        "fabric": ("fabric",),
-        "quilt": ("quilt",),
-    }
-    return any(alias in label for alias in aliases.get(loader, (loader,)))
-
-
-def is_matching_mod_file(file_info: dict, mod_loader: str, game_version_prefix: str) -> bool:
-    if is_server_plugin_file(file_info):
-        return False
-    if not version_matches_prefix(file_game_versions(file_info), game_version_prefix):
-        return False
-
-    file_loaders = file_info.get("modLoaders") or []
-    if file_loaders:
-        return loader_matches(file_loaders, mod_loader)
-
-    # Some mod jars omit modLoaders but include the loader in the file name.
-    return loader_mentioned_in_file(file_info, mod_loader)
+def file_matches_loader_selection(
+    file_info: dict,
+    mod_loader: str,
+    *,
+    trust_loader_filter: bool,
+) -> bool:
+    loaders = file_loader_types(file_info)
+    if loaders:
+        return file_has_loader_metadata(file_info, mod_loader)
+    return trust_loader_filter
 
 
 def fetch_mod_files(mod_id: int, params: dict[str, str], api_key: str) -> list[dict]:
@@ -222,25 +191,51 @@ def fetch_mod_files(mod_id: int, params: dict[str, str], api_key: str) -> list[d
     return payload.get("data") or []
 
 
-def describe_recent_files(files: list[dict], limit: int = 5) -> str:
+def newest_matching_version(files: list[dict], game_version_prefix: str) -> list[dict]:
+    matching = [
+        file_info
+        for file_info in files
+        if version_matches_prefix(file_game_versions(file_info), game_version_prefix)
+    ]
+    matching.sort(key=lambda item: item.get("fileDate", ""), reverse=True)
+    return matching
+
+
+def describe_resolution_context(
+    mod_info: dict,
+    mod_loader: str,
+    game_version_prefix: str,
+    api_key: str,
+) -> str:
     lines = []
-    for file_info in files[:limit]:
-        loaders = file_info.get("modLoaders") or []
-        loader_labels = []
-        for loader in loaders:
-            loader_type = loader.get("type")
-            if isinstance(loader_type, int):
-                loader_labels.append(MOD_LOADER_TYPE_NAMES.get(loader_type, str(loader_type)))
-            else:
-                loader_labels.append(str(loader_type))
+    for index in mod_info.get("latestFilesIndexes") or []:
         lines.append(
-            f"- {file_info.get('id')}: "
-            f"{file_info.get('displayName')} "
-            f"({file_info.get('fileName')}) "
-            f"versions={file_game_versions(file_info)} "
-            f"loaders={loader_labels or ['(none listed)']}"
+            "- index: "
+            f"fileId={index.get('fileId')} "
+            f"gameVersion={index.get('gameVersion')} "
+            f"modLoader={loader_type_label(index.get('modLoader'))}"
         )
-    return "\n".join(lines)
+
+    loader_type = mod_loader_type_id(mod_loader)
+    if loader_type:
+        params: dict[str, str] = {
+            "modLoaderType": str(loader_type),
+            "pageSize": "5",
+            "index": "0",
+        }
+        if game_version_prefix:
+            params["gameVersion"] = game_version_prefix
+        for file_info in fetch_mod_files(mod_info["id"], params, api_key):
+            loader_labels = [loader_type_label(value) for value in file_loader_types(file_info)]
+            lines.append(
+                f"- api: {file_info.get('id')}: "
+                f"{file_info.get('displayName')} "
+                f"({file_info.get('fileName')}) "
+                f"versions={file_game_versions(file_info)} "
+                f"loaders={loader_labels or ['(none listed)']}"
+            )
+
+    return "\n".join(lines) if lines else "(no loader-specific CurseForge entries found)"
 
 
 def resolve_file_id_from_indexes(
@@ -259,37 +254,54 @@ def resolve_file_id_from_indexes(
     return None
 
 
-def fetch_matching_files(
+def fetch_loader_filtered_files(
     mod_id: int,
     mod_loader: str,
     game_version_prefix: str,
     api_key: str,
 ) -> list[dict]:
-    loader_type = MOD_LOADER_TYPES.get(mod_loader.lower(), 0)
-    query_variants: list[dict[str, str]] = []
-    base_params: dict[str, str] = {"pageSize": "50", "index": "0"}
+    loader_type = mod_loader_type_id(mod_loader)
+    if not loader_type:
+        return []
 
-    if loader_type and game_version_prefix:
-        query_variants.append(
-            {**base_params, "modLoaderType": str(loader_type), "gameVersion": game_version_prefix}
+    def accept_loader_filtered(files: list[dict]) -> list[dict]:
+        compatible = [
+            file_info
+            for file_info in files
+            if file_matches_loader_selection(
+                file_info,
+                mod_loader,
+                trust_loader_filter=True,
+            )
+        ]
+        compatible.sort(key=lambda item: item.get("fileDate", ""), reverse=True)
+        return compatible
+
+    if game_version_prefix:
+        files = fetch_mod_files(
+            mod_id,
+            {
+                "modLoaderType": str(loader_type),
+                "gameVersion": game_version_prefix,
+                "pageSize": "50",
+                "index": "0",
+            },
+            api_key,
         )
-    if loader_type:
-        query_variants.append({**base_params, "modLoaderType": str(loader_type)})
+        compatible = accept_loader_filtered(files)
+        if compatible:
+            return compatible
 
-    seen_queries: set[str] = set()
-    matching: list[dict] = []
-    for params in query_variants:
-        query_key = urllib.parse.urlencode(sorted(params.items()))
-        if query_key in seen_queries:
-            continue
-        seen_queries.add(query_key)
-
-        for file_info in fetch_mod_files(mod_id, params, api_key):
-            if is_matching_mod_file(file_info, mod_loader, game_version_prefix):
-                matching.append(file_info)
-
-    matching.sort(key=lambda item: item.get("fileDate", ""), reverse=True)
-    return matching
+    files = fetch_mod_files(
+        mod_id,
+        {
+            "modLoaderType": str(loader_type),
+            "pageSize": "50",
+            "index": "0",
+        },
+        api_key,
+    )
+    return accept_loader_filtered(newest_matching_version(files, game_version_prefix))
 
 
 def resolve_latest_file(
@@ -298,30 +310,37 @@ def resolve_latest_file(
     game_version_prefix: str,
     api_key: str,
 ) -> dict:
+    mod_id = mod_info["id"]
+
     file_id = resolve_file_id_from_indexes(mod_info, mod_loader, game_version_prefix)
     if file_id is not None:
-        file_info = fetch_mod_file(mod_info["id"], file_id, api_key)
-        if is_matching_mod_file(file_info, mod_loader, game_version_prefix):
+        file_info = fetch_mod_file(mod_id, file_id, api_key)
+        if version_matches_prefix(file_game_versions(file_info), game_version_prefix) and file_matches_loader_selection(
+            file_info,
+            mod_loader,
+            trust_loader_filter=True,
+        ):
             return file_info
 
-    for file_info in mod_info.get("latestFiles") or []:
-        if is_matching_mod_file(file_info, mod_loader, game_version_prefix):
-            return file_info
-
-    matching_files = fetch_matching_files(
-        mod_info["id"],
+    loader_filtered_files = fetch_loader_filtered_files(
+        mod_id,
         mod_loader,
         game_version_prefix,
         api_key,
     )
-    if matching_files:
-        return matching_files[0]
+    if loader_filtered_files:
+        return loader_filtered_files[0]
 
-    recent_files = fetch_mod_files(mod_info["id"], {"pageSize": "5", "index": "0"}, api_key)
-    hint = describe_recent_files(recent_files)
+    for file_info in mod_info.get("latestFiles") or []:
+        if not version_matches_prefix(file_game_versions(file_info), game_version_prefix):
+            continue
+        if file_has_loader_metadata(file_info, mod_loader):
+            return file_info
+
+    hint = describe_resolution_context(mod_info, mod_loader, game_version_prefix, api_key)
     raise LookupError(
-        f"No {mod_loader} {game_version_prefix} mod file found for mod {mod_info.get('id')}.\n"
-        f"Recent CurseForge files for this project:\n{hint}"
+        f"No {mod_loader} {game_version_prefix} file found for mod {mod_id}.\n"
+        f"CurseForge loader-specific entries:\n{hint}"
     )
 
 
@@ -379,13 +398,7 @@ def build_release(
         "displayName": file_info.get("displayName"),
         "fileName": file_info.get("fileName"),
         "gameVersions": file_info.get("gameVersions") or [],
-        "modLoaders": [
-            MOD_LOADER_TYPE_NAMES.get(loader.get("type"), loader.get("type"))
-            if isinstance(loader.get("type"), int)
-            else loader.get("type")
-            for loader in (file_info.get("modLoaders") or [])
-            if loader.get("type") is not None
-        ],
+        "modLoaders": [loader_type_label(value) for value in file_loader_types(file_info)],
     }
     if file_info.get("isAlternate"):
         release["isStable"] = False
