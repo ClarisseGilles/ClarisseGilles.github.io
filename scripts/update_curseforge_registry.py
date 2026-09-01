@@ -134,8 +134,10 @@ def loader_matches(
     if not mod_loader:
         return True
 
+    # CurseForge often omits loader metadata on cross-loader jars. When no
+    # loaders are listed we can only match on game version.
     if not file_loaders:
-        return api_loader_filtered
+        return True
 
     expected = mod_loader.lower()
     expected_id = MOD_LOADER_TYPES.get(expected)
@@ -212,6 +214,8 @@ def fetch_matching_files(
         )
     if loader_type:
         query_variants.append(({**base_params, "modLoaderType": str(loader_type)}, True))
+    if game_version_prefix:
+        query_variants.append(({**base_params, "gameVersion": game_version_prefix}, False))
     query_variants.append((base_params, False))
 
     seen_queries: set[str] = set()
