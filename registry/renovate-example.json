@@ -16,6 +16,7 @@
       ],
       "datasourceTemplate": "custom.clarissegilles-curseforge",
       "depNameTemplate": "1.21.1/neoforge/{{slug}}",
+      "packageNameTemplate": "1.21.1/neoforge/{{slug}}",
       "versioningTemplate": "loose"
     },
     {
@@ -27,6 +28,7 @@
       ],
       "datasourceTemplate": "custom.clarissegilles-curseforge",
       "depNameTemplate": "{{depName}}",
+      "packageNameTemplate": "{{depName}}",
       "versioningTemplate": "loose"
     }
   ],
