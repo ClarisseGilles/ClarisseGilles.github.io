@@ -18,13 +18,28 @@ permissions:
 jobs:
   update-registry:
     runs-on: ubuntu-latest
+    environment: curseforge
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+
+      - name: Configure CurseForge API key
+        env:
+          KEY_FROM_SECRET: ${{ secrets.CURSEFORGE_API_KEY }}
+          KEY_FROM_VAR: ${{ vars.CURSEFORGE_API_KEY }}
+        run: |
+          if [ -n "$KEY_FROM_SECRET" ]; then
+            echo "Using CURSEFORGE_API_KEY from repository secrets"
+            echo "CURSEFORGE_API_KEY=$KEY_FROM_SECRET" >> "$GITHUB_ENV"
+          elif [ -n "$KEY_FROM_VAR" ]; then
+            echo "Using CURSEFORGE_API_KEY from repository variables"
+            echo "CURSEFORGE_API_KEY=$KEY_FROM_VAR" >> "$GITHUB_ENV"
+          else
+            echo "::error title=Missing CurseForge API key::Add CURSEFORGE_API_KEY to the curseforge environment at https://github.com/${{ github.repository }}/settings/environments (Settings → Environments → curseforge → Environment secrets). You can also use a repository secret or variable with the same name."
+            exit 1
+          fi
 
       - name: Update registry from CurseForge API
-        env:
-          CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
         run: python3 scripts/update_curseforge_registry.py
 
       - name: Commit registry updates
