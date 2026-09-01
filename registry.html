@@ -105,7 +105,8 @@
 
     .nav { margin-top: 12px; font-size: 0.95rem; }
 
-    details {
+    .changelog-collapse {
+      width: 100%;
       border: 1px solid #446838;
       border-radius: 8px;
       background: rgba(10, 16, 8, 0.55);
@@ -113,20 +114,40 @@
       padding: 0 12px;
     }
 
-    details[open] {
+    .changelog-collapse[open] {
       padding-bottom: 12px;
     }
 
-    summary {
+    .changelog-collapse summary {
       cursor: pointer;
-      color: #ecffe0;
-      font-weight: 600;
+      font-weight: 700;
+      color: #e8ffd8;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
       padding: 12px 0;
-      list-style-position: outside;
     }
 
-    summary::-webkit-details-marker {
-      color: var(--accent);
+    .changelog-collapse summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .changelog-collapse summary::before {
+      content: "▸";
+      font-size: 1rem;
+      color: #d6efc6;
+      transition: transform 0.2s ease;
+      flex: 0 0 auto;
+      line-height: 1;
+    }
+
+    .changelog-collapse[open] > summary::before {
+      transform: rotate(90deg);
+    }
+
+    .changelog-summary-title {
+      flex: 1 1 auto;
     }
 
     .changelog-body {
@@ -162,9 +183,13 @@
       margin: 0;
     }
 
-    .nested-changelog details {
+    .nested-changelog .changelog-collapse {
       margin-left: 8px;
       background: rgba(8, 12, 7, 0.65);
+    }
+
+    .nested-changelog {
+      padding-top: 4px;
     }
   </style>
 </head>
@@ -430,11 +455,15 @@
 
       for (const mod of mods) {
         const modDetails = document.createElement("details");
+        modDetails.className = "changelog-collapse";
         modDetails.id = `changelog-${mod.slug}`;
         modDetails.open = mods.length === 1;
 
         const modSummary = document.createElement("summary");
-        modSummary.textContent = `${mod.name} (${mod.packageName})`;
+        const modSummaryTitle = document.createElement("span");
+        modSummaryTitle.className = "changelog-summary-title";
+        modSummaryTitle.textContent = `${mod.name} (${mod.packageName})`;
+        modSummary.appendChild(modSummaryTitle);
         modDetails.appendChild(modSummary);
 
         const nested = document.createElement("div");
@@ -463,12 +492,16 @@
           } else {
             for (const [index, section] of sections.entries()) {
               const versionDetails = document.createElement("details");
+              versionDetails.className = "changelog-collapse";
               if (index === 0) {
                 versionDetails.open = true;
               }
 
               const versionSummary = document.createElement("summary");
-              versionSummary.textContent = `File ${section.version}`;
+              const versionSummaryTitle = document.createElement("span");
+              versionSummaryTitle.className = "changelog-summary-title";
+              versionSummaryTitle.textContent = `File ${section.version}`;
+              versionSummary.appendChild(versionSummaryTitle);
               versionDetails.appendChild(versionSummary);
 
               const body = document.createElement("div");
