@@ -23,11 +23,16 @@
       ],
       "datasourceTemplate": "custom.clarissegilles-curseforge",
       "depNameTemplate": "1.21.1/neoforge/{{slug}}",
-      "packageNameTemplate": "1.21.1/neoforge/{{slug}}",
-      "versioningTemplate": "regex:^(?<major>\\d+)$"
+      "registryUrlTemplate": "https://clarissegilles.github.io/registry/1.21.1/neoforge/{{slug}}.json",
+      "versioningTemplate": "loose"
     }
   ],
   "packageRules": [
+    {
+      "description": "CurseForge file IDs are opaque integers, not semver major bumps",
+      "matchDatasources": ["custom.clarissegilles-curseforge"],
+      "maxMajorIncrement": 0
+    },
     {
       "description": "Embed CurseForge changelogs from the registry GitHub repo",
       "matchDatasources": ["custom.clarissegilles-curseforge"],
