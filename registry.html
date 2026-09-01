@@ -188,7 +188,12 @@
         <p>
           Enable this in your consumer repo with
           <code>"fetchChangeLogs": "pr"</code> for the custom datasource (included in the example config).
-          Changelog sections use the CurseForge file ID as the heading, for example <code>## 8037637</code>.
+          Changelog sections use the CurseForge file ID as the heading, for example <code>## 8601207</code>.
+        </p>
+        <p>
+          Renovate needs at least two entries in each registry <code>releases</code> array (current and
+          latest file ID) before it can embed collapsible release notes. The updater keeps prior releases
+          instead of overwriting the array with only the newest file.
         </p>
       </article>
 

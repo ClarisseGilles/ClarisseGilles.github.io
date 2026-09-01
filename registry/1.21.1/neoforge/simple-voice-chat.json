@@ -29,6 +29,10 @@
         "Server"
       ],
       "modLoaders": []
+    },
+    {
+      "version": "8037683",
+      "changelogUrl": "https://www.curseforge.com/minecraft/mc-mods/simple-voice-chat/files/8037683"
     }
   ]
 }
