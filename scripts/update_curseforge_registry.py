@@ -29,6 +29,8 @@ MOD_LOADER_TYPES = {
     "neoforge": 6,
 }
 
+MOD_LOADER_TYPE_NAMES = {value: name for name, value in MOD_LOADER_TYPES.items()}
+
 PROJECT_TYPE_PATHS = {
     "mod": "mc-mods",
     "modpack": "modpacks",
@@ -114,16 +116,65 @@ def version_matches_prefix(game_versions: list[str], prefix: str) -> bool:
     return False
 
 
-def loader_matches(file_loaders: list[dict], mod_loader: str) -> bool:
+def file_game_versions(file_info: dict) -> list[str]:
+    versions = list(file_info.get("gameVersions") or [])
+    for entry in file_info.get("sortableGameVersions") or []:
+        version = entry.get("gameVersion") or entry.get("gameVersionName")
+        if version and version not in versions:
+            versions.append(version)
+    return versions
+
+
+def loader_matches(
+    file_loaders: list[dict],
+    mod_loader: str,
+    *,
+    api_loader_filtered: bool,
+) -> bool:
     if not mod_loader:
         return True
 
+    if not file_loaders:
+        return api_loader_filtered
+
     expected = mod_loader.lower()
+    expected_id = MOD_LOADER_TYPES.get(expected)
     for loader in file_loaders:
-        loader_type = str(loader.get("type", "")).lower()
-        if loader_type == expected:
+        loader_type = loader.get("type")
+        if isinstance(loader_type, int):
+            if loader_type == expected_id:
+                return True
+            name = MOD_LOADER_TYPE_NAMES.get(loader_type, "")
+            if name == expected:
+                return True
+        elif str(loader_type).lower() == expected:
             return True
     return False
+
+
+def fetch_mod_files(mod_id: int, params: dict[str, str], api_key: str) -> list[dict]:
+    query = urllib.parse.urlencode(params)
+    payload = api_request(f"/mods/{mod_id}/files?{query}", api_key)
+    return payload.get("data") or []
+
+
+def describe_recent_files(files: list[dict], limit: int = 5) -> str:
+    lines = []
+    for file_info in files[:limit]:
+        loaders = file_info.get("modLoaders") or []
+        loader_labels = []
+        for loader in loaders:
+            loader_type = loader.get("type")
+            if isinstance(loader_type, int):
+                loader_labels.append(MOD_LOADER_TYPE_NAMES.get(loader_type, str(loader_type)))
+            else:
+                loader_labels.append(str(loader_type))
+        lines.append(
+            f"- {file_info.get('id')}: "
+            f"versions={file_game_versions(file_info)} "
+            f"loaders={loader_labels or ['(none listed)']}"
+        )
+    return "\n".join(lines)
 
 
 def fetch_matching_files(
@@ -133,29 +184,59 @@ def fetch_matching_files(
     api_key: str,
 ) -> list[dict]:
     loader_type = MOD_LOADER_TYPES.get(mod_loader.lower(), 0)
-    params = {
-        "pageSize": "50",
-        "index": "0",
-    }
+
+    def filter_files(files: list[dict], *, api_loader_filtered: bool) -> list[dict]:
+        matching = []
+        for file_info in files:
+            if not version_matches_prefix(file_game_versions(file_info), game_version_prefix):
+                continue
+            if not loader_matches(
+                file_info.get("modLoaders") or [],
+                mod_loader,
+                api_loader_filtered=api_loader_filtered,
+            ):
+                continue
+            matching.append(file_info)
+        matching.sort(key=lambda item: item.get("fileDate", ""), reverse=True)
+        return matching
+
+    query_variants: list[tuple[dict[str, str], bool]] = []
+    base_params: dict[str, str] = {"pageSize": "50", "index": "0"}
+
+    if loader_type and game_version_prefix:
+        query_variants.append(
+            (
+                {**base_params, "modLoaderType": str(loader_type), "gameVersion": game_version_prefix},
+                True,
+            )
+        )
     if loader_type:
-        params["modLoaderType"] = str(loader_type)
+        query_variants.append(({**base_params, "modLoaderType": str(loader_type)}, True))
+    query_variants.append((base_params, False))
 
-    query = urllib.parse.urlencode(params)
-    payload = api_request(f"/mods/{mod_id}/files?{query}", api_key)
-    files = payload.get("data") or []
-
-    matching = []
-    for file_info in files:
-        game_versions = file_info.get("gameVersions") or []
-        file_loaders = file_info.get("modLoaders") or []
-        if not version_matches_prefix(game_versions, game_version_prefix):
+    seen_queries: set[str] = set()
+    for params, api_loader_filtered in query_variants:
+        query_key = urllib.parse.urlencode(sorted(params.items()))
+        if query_key in seen_queries:
             continue
-        if mod_loader and not loader_matches(file_loaders, mod_loader):
-            continue
-        matching.append(file_info)
+        seen_queries.add(query_key)
 
-    matching.sort(key=lambda item: item.get("fileDate", ""), reverse=True)
-    return matching
+        files = fetch_mod_files(mod_id, params, api_key)
+        matching = filter_files(files, api_loader_filtered=api_loader_filtered)
+        if matching:
+            return matching
+
+        if api_loader_filtered:
+            fallback = [
+                file_info
+                for file_info in files
+                if version_matches_prefix(file_game_versions(file_info), game_version_prefix)
+            ]
+            fallback.sort(key=lambda item: item.get("fileDate", ""), reverse=True)
+            if fallback:
+                return fallback
+
+    return []
 
 
 def upsert_changelog_section(
@@ -215,9 +296,11 @@ def build_release(
         "fileName": file_info.get("fileName"),
         "gameVersions": file_info.get("gameVersions") or [],
         "modLoaders": [
-            loader.get("type")
+            MOD_LOADER_TYPE_NAMES.get(loader.get("type"), loader.get("type"))
+            if isinstance(loader.get("type"), int)
+            else loader.get("type")
             for loader in (file_info.get("modLoaders") or [])
-            if loader.get("type")
+            if loader.get("type") is not None
         ],
     }
     if file_info.get("isAlternate"):
@@ -326,9 +409,16 @@ def main() -> int:
             api_key=api_key,
         )
         if not matching_files:
+            recent_files = fetch_mod_files(
+                mod_info["id"],
+                {"pageSize": "5", "index": "0"},
+                api_key,
+            )
+            hint = describe_recent_files(recent_files)
             raise LookupError(
                 f"No files found for {package} "
-                f"({mod_config.get('modLoader')} {mod_config.get('gameVersion')})"
+                f"({mod_config.get('modLoader')} {mod_config.get('gameVersion')}).\n"
+                f"Recent CurseForge files for this project:\n{hint}"
             )
 
         latest_file = matching_files[0]
