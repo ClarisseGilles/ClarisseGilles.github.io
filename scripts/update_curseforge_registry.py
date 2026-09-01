@@ -427,10 +427,54 @@ def build_release(
     return release
 
 
+def release_sort_key(release: dict) -> int:
+    try:
+        return int(release["version"])
+    except (KeyError, TypeError, ValueError):
+        return 0
+
+
+def parse_changelog_versions(changelog_content: str) -> list[str]:
+    return re.findall(r"^##\s+(\S+)\s*$", changelog_content, re.MULTILINE)
+
+
+def merge_releases(existing_releases: list[dict], latest_release: dict) -> list[dict]:
+    by_version = {str(release["version"]): release for release in existing_releases}
+    by_version[str(latest_release["version"])] = latest_release
+    return sorted(by_version.values(), key=release_sort_key, reverse=True)
+
+
+def ensure_release_entries(
+    releases: list[dict],
+    versions: list[str],
+    mod_id: int,
+    slug: str,
+    project_type: str,
+    api_key: str,
+) -> list[dict]:
+    path_segment = PROJECT_TYPE_PATHS[project_type]
+    by_version = {str(release["version"]): release for release in releases}
+    for version in versions:
+        if version in by_version:
+            continue
+        changelog_url = (
+            f"https://www.curseforge.com/minecraft/{path_segment}/{slug}/files/{version}"
+        )
+        try:
+            file_info = fetch_mod_file(mod_id, int(version), api_key)
+            by_version[version] = build_release(file_info, slug, project_type, changelog_url)
+        except LookupError:
+            by_version[version] = {
+                "version": version,
+                "changelogUrl": changelog_url,
+            }
+    return sorted(by_version.values(), key=release_sort_key, reverse=True)
+
+
 def build_registry_entry(
     mod_config: dict,
     mod_info: dict,
-    latest_file: dict,
+    releases: list[dict],
     source_url: str,
     changelog_dir: str,
     changelog_markdown_url: str,
@@ -456,14 +500,7 @@ def build_registry_entry(
         "sourceDirectory": changelog_dir,
         "changelogUrl": changelog_markdown_url,
         "updatedAt": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
-        "releases": [
-            build_release(
-                latest_file,
-                slug,
-                project_type,
-                f"https://www.curseforge.com/minecraft/{path_segment}/{slug}/files/{latest_file['id']}",
-            )
-        ],
+        "releases": releases,
     }
 
 
@@ -552,10 +589,37 @@ def main() -> int:
             encoding="utf-8",
         )
 
+        path_segment = PROJECT_TYPE_PATHS[mod_config["projectType"]]
+        latest_release = build_release(
+            latest_file,
+            mod_config["slug"],
+            mod_config["projectType"],
+            f"https://www.curseforge.com/minecraft/{path_segment}/{mod_config['slug']}/files/{latest_file['id']}",
+        )
+
+        registry_path = registry_dir / f"{package}.json"
+        existing_releases: list[dict] = []
+        if registry_path.exists():
+            existing_payload = json.loads(registry_path.read_text(encoding="utf-8"))
+            existing_releases = existing_payload.get("releases") or []
+
+        changelog_versions = parse_changelog_versions(
+            changelog_path.read_text(encoding="utf-8")
+        )
+        releases = merge_releases(existing_releases, latest_release)
+        releases = ensure_release_entries(
+            releases,
+            changelog_versions,
+            mod_info["id"],
+            mod_config["slug"],
+            mod_config["projectType"],
+            api_key,
+        )
+
         payload = build_registry_entry(
             mod_config,
             mod_info,
-            latest_file,
+            releases,
             source_url,
             changelog_dir,
             changelog_markdown_url,
@@ -569,7 +633,7 @@ def main() -> int:
                 "projectType": mod_config["projectType"],
                 "modLoader": mod_config.get("modLoader"),
                 "gameVersion": mod_config.get("gameVersion"),
-                "latestVersion": payload["releases"][0]["version"],
+                "latestVersion": releases[0]["version"],
                 "registryUrl": payload["registryUrl"],
                 "changelogUrl": payload["changelogUrl"],
                 "sourceDirectory": changelog_dir,

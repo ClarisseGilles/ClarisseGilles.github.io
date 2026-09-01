@@ -29,6 +29,10 @@
         "Server"
       ],
       "modLoaders": []
+    },
+    {
+      "version": "8037637",
+      "changelogUrl": "https://www.curseforge.com/minecraft/mc-mods/distant-horizons/files/8037637"
     }
   ]
 }
