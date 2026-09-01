@@ -2,7 +2,7 @@
   "description": "CurseForge mod registry for Renovate custom datasources",
   "baseUrl": "https://clarissegilles.github.io/registry",
   "sourceUrl": "https://github.com/ClarisseGilles/ClarisseGilles.github.io",
-  "updatedAt": "2026-09-01T16:30:12+00:00",
+  "updatedAt": "2026-09-01T17:30:00+00:00",
   "mods": [
     {
       "packageName": "1.21.1/neoforge/distant-horizons",
@@ -42,6 +42,45 @@
       "changelogUrl": "https://clarissegilles.github.io/changelogs/1.21.1/neoforge/all-the-mons/CHANGELOG.md",
       "sourceDirectory": "changelogs/1.21.1/neoforge/all-the-mons",
       "updatedAt": "2026-09-01T16:30:12+00:00"
+    },
+    {
+      "packageName": "1.21.1/neoforge/c2me",
+      "slug": "c2me",
+      "name": "Concurrent Chunk Management Engine",
+      "projectType": "mod",
+      "modLoader": "NeoForge",
+      "gameVersion": "1.21.1",
+      "latestVersion": "7694225",
+      "registryUrl": "https://clarissegilles.github.io/registry/1.21.1/neoforge/c2me.json",
+      "changelogUrl": "https://clarissegilles.github.io/changelogs/1.21.1/neoforge/c2me/CHANGELOG.md",
+      "sourceDirectory": "changelogs/1.21.1/neoforge/c2me",
+      "updatedAt": "2026-09-01T17:30:00+00:00"
+    },
+    {
+      "packageName": "1.21.1/neoforge/noisiumforked",
+      "slug": "noisiumforked",
+      "name": "NoisiumForked",
+      "projectType": "mod",
+      "modLoader": "NeoForge",
+      "gameVersion": "1.21.1",
+      "latestVersion": "7569595",
+      "registryUrl": "https://clarissegilles.github.io/registry/1.21.1/neoforge/noisiumforked.json",
+      "changelogUrl": "https://clarissegilles.github.io/changelogs/1.21.1/neoforge/noisiumforked/CHANGELOG.md",
+      "sourceDirectory": "changelogs/1.21.1/neoforge/noisiumforked",
+      "updatedAt": "2026-09-01T17:30:00+00:00"
+    },
+    {
+      "packageName": "1.21.1/neoforge/lithium",
+      "slug": "lithium",
+      "name": "Lithium (Fabric/NeoForge)",
+      "projectType": "mod",
+      "modLoader": "NeoForge",
+      "gameVersion": "1.21.1",
+      "latestVersion": "8330365",
+      "registryUrl": "https://clarissegilles.github.io/registry/1.21.1/neoforge/lithium.json",
+      "changelogUrl": "https://clarissegilles.github.io/changelogs/1.21.1/neoforge/lithium/CHANGELOG.md",
+      "sourceDirectory": "changelogs/1.21.1/neoforge/lithium",
+      "updatedAt": "2026-09-01T17:30:00+00:00"
     }
   ]
 }

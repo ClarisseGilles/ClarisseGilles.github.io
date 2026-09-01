@@ -1,0 +1,31 @@
+{
+  "packageName": "1.21.1/neoforge/c2me",
+  "mod": {
+    "id": 533097,
+    "slug": "c2me",
+    "name": "Concurrent Chunk Management Engine",
+    "projectType": "mod",
+    "modLoader": "NeoForge",
+    "gameVersion": "1.21.1"
+  },
+  "homepage": "https://www.curseforge.com/minecraft/mc-mods/c2me",
+  "registryUrl": "https://clarissegilles.github.io/registry/1.21.1/neoforge/c2me.json",
+  "sourceUrl": "https://github.com/ClarisseGilles/ClarisseGilles.github.io",
+  "sourceDirectory": "changelogs/1.21.1/neoforge/c2me",
+  "changelogUrl": "https://clarissegilles.github.io/changelogs/1.21.1/neoforge/c2me/CHANGELOG.md",
+  "updatedAt": "2026-09-01T17:30:00+00:00",
+  "releases": [
+    {
+      "version": "7694225",
+      "changelogUrl": "https://www.curseforge.com/minecraft/mc-mods/c2me/files/7694225",
+      "displayName": "0.3.0+alpha.0.90 devbuild for 1.21.1",
+      "fileName": "c2me-neoforge-mc1.21.1-0.3.0+alpha.0.90.jar",
+      "gameVersions": [
+        "1.21.1",
+        "NeoForge"
+      ],
+      "modLoaders": [],
+      "isStable": false
+    }
+  ]
+}
