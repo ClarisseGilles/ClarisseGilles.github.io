@@ -32,6 +32,11 @@
   ],
   "packageRules": [
     {
+      "description": "Embed CurseForge changelogs from the registry GitHub repo",
+      "matchDatasources": ["custom.clarissegilles-curseforge"],
+      "fetchChangeLogs": "pr"
+    },
+    {
       "description": "Group CurseForge mod updates together",
       "matchDatasources": ["custom.clarissegilles-curseforge"],
       "groupName": "curseforge mods"

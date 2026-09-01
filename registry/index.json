@@ -1,37 +1,44 @@
 {
   "description": "CurseForge mod registry for Renovate custom datasources",
   "baseUrl": "https://clarissegilles.github.io/registry",
+  "sourceUrl": "https://github.com/ClarisseGilles/ClarisseGilles.github.io",
   "updatedAt": "2026-09-01T00:00:00+00:00",
   "mods": [
     {
-      "packageName": "distant-horizons/neoforge/1.20",
+      "packageName": "1.20/neoforge/distant-horizons",
       "slug": "distant-horizons",
       "name": "Distant Horizons",
       "projectType": "mod",
       "modLoader": "NeoForge",
       "gameVersion": "1.20",
       "latestVersion": "8037637",
-      "registryUrl": "https://clarissegilles.github.io/registry/distant-horizons/neoforge/1.20.json"
+      "registryUrl": "https://clarissegilles.github.io/registry/1.20/neoforge/distant-horizons.json",
+      "changelogUrl": "https://clarissegilles.github.io/changelogs/1.20/neoforge/distant-horizons/CHANGELOG.md",
+      "sourceDirectory": "changelogs/1.20/neoforge/distant-horizons"
     },
     {
-      "packageName": "simple-voice-chat/neoforge/1.20",
+      "packageName": "1.20/neoforge/simple-voice-chat",
       "slug": "simple-voice-chat",
       "name": "Simple Voice Chat",
       "projectType": "mod",
       "modLoader": "NeoForge",
       "gameVersion": "1.20",
       "latestVersion": "8037683",
-      "registryUrl": "https://clarissegilles.github.io/registry/simple-voice-chat/neoforge/1.20.json"
+      "registryUrl": "https://clarissegilles.github.io/registry/1.20/neoforge/simple-voice-chat.json",
+      "changelogUrl": "https://clarissegilles.github.io/changelogs/1.20/neoforge/simple-voice-chat/CHANGELOG.md",
+      "sourceDirectory": "changelogs/1.20/neoforge/simple-voice-chat"
     },
     {
-      "packageName": "all-the-mons/neoforge/1.20",
+      "packageName": "1.20/neoforge/all-the-mons",
       "slug": "all-the-mons",
       "name": "All the Mons",
       "projectType": "modpack",
       "modLoader": "NeoForge",
       "gameVersion": "1.20",
       "latestVersion": "8089924",
-      "registryUrl": "https://clarissegilles.github.io/registry/all-the-mons/neoforge/1.20.json"
+      "registryUrl": "https://clarissegilles.github.io/registry/1.20/neoforge/all-the-mons.json",
+      "changelogUrl": "https://clarissegilles.github.io/changelogs/1.20/neoforge/all-the-mons/CHANGELOG.md",
+      "sourceDirectory": "changelogs/1.20/neoforge/all-the-mons"
     }
   ]
 }

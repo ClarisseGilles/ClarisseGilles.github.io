@@ -1,5 +1,5 @@
 {
-  "packageName": "simple-voice-chat/neoforge/1.20",
+  "packageName": "1.20/neoforge/simple-voice-chat",
   "mod": {
     "slug": "simple-voice-chat",
     "name": "Simple Voice Chat",
@@ -8,7 +8,10 @@
     "gameVersion": "1.20"
   },
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/simple-voice-chat",
-  "registryUrl": "https://clarissegilles.github.io/registry/simple-voice-chat/neoforge/1.20.json",
+  "registryUrl": "https://clarissegilles.github.io/registry/1.20/neoforge/simple-voice-chat.json",
+  "sourceUrl": "https://github.com/ClarisseGilles/ClarisseGilles.github.io",
+  "sourceDirectory": "changelogs/1.20/neoforge/simple-voice-chat",
+  "changelogUrl": "https://clarissegilles.github.io/changelogs/1.20/neoforge/simple-voice-chat/CHANGELOG.md",
   "updatedAt": "2026-09-01T00:00:00+00:00",
   "releases": [
     {

@@ -114,7 +114,7 @@
       <p>
         Machine-readable CurseForge file IDs for Minecraft mods and modpacks, filtered by
         Minecraft version and mod loader. Point Renovate at these JSON endpoints from another
-        repository to get automatic update PRs.
+        repository to get automatic update PRs with embedded changelogs.
       </p>
       <p class="nav"><a href="mc.html">Back to server page</a></p>
     </header>
@@ -122,7 +122,7 @@
     <section class="content">
       <article class="section">
         <h2>Tracked mods</h2>
-        <p>Each entry is published at <code>registry/&lt;slug&gt;/&lt;loader&gt;/&lt;version&gt;.json</code>.</p>
+        <p>Each entry is published at <code>registry/&lt;version&gt;/&lt;loader&gt;/&lt;slug&gt;.json</code>.</p>
         <table>
           <thead>
             <tr>
@@ -133,19 +133,19 @@
           </thead>
           <tbody>
             <tr>
-              <td><code>distant-horizons/neoforge/1.20</code></td>
+              <td><code>1.20/neoforge/distant-horizons</code></td>
               <td>NeoForge, Minecraft 1.20.x</td>
-              <td><a href="registry/distant-horizons/neoforge/1.20.json">8037637</a></td>
+              <td><a href="registry/1.20/neoforge/distant-horizons.json">8037637</a></td>
             </tr>
             <tr>
-              <td><code>simple-voice-chat/neoforge/1.20</code></td>
+              <td><code>1.20/neoforge/simple-voice-chat</code></td>
               <td>NeoForge, Minecraft 1.20.x</td>
-              <td><a href="registry/simple-voice-chat/neoforge/1.20.json">8037683</a></td>
+              <td><a href="registry/1.20/neoforge/simple-voice-chat.json">8037683</a></td>
             </tr>
             <tr>
-              <td><code>all-the-mons/neoforge/1.20</code></td>
+              <td><code>1.20/neoforge/all-the-mons</code></td>
               <td>NeoForge modpack, Minecraft 1.20.x</td>
-              <td><a href="registry/all-the-mons/neoforge/1.20.json">8089924</a></td>
+              <td><a href="registry/1.20/neoforge/all-the-mons.json">8089924</a></td>
             </tr>
           </tbody>
         </table>
@@ -165,15 +165,29 @@
 }</pre>
         <p>Then track file IDs in a manifest like <code>mods.json</code>:</p>
         <pre>{
-  "distant-horizons/neoforge/1.20": {
+  "1.20/neoforge/distant-horizons": {
     "fileId": "8037637"
   }
 }</pre>
         <p>Use the regex custom manager from <a href="registry/renovate-example.json">registry/renovate-example.json</a>.</p>
         <p>
           For Distant Horizons NeoForge 1.20 updates only, set
-          <code>depName</code> to <code>distant-horizons/neoforge/1.20</code>.
-          The registry only publishes files that match the configured loader and Minecraft version prefix.
+          <code>depName</code> to <code>1.20/neoforge/distant-horizons</code>.
+        </p>
+      </article>
+
+      <article class="section">
+        <h2>Changelogs in Renovate PRs</h2>
+        <p>
+          The updater fetches CurseForge changelogs and writes them to
+          <code>changelogs/&lt;version&gt;/&lt;loader&gt;/&lt;slug&gt;/CHANGELOG.md</code>
+          in this repository. Each registry JSON exposes <code>sourceUrl</code> and
+          <code>sourceDirectory</code> so Renovate can embed release notes in PRs.
+        </p>
+        <p>
+          Enable this in your consumer repo with
+          <code>"fetchChangeLogs": "pr"</code> for the custom datasource (included in the example config).
+          Changelog sections use the CurseForge file ID as the heading, for example <code>## 8037637</code>.
         </p>
       </article>
 
@@ -181,7 +195,7 @@
         <h2>Adding or changing tracked mods</h2>
         <ol>
           <li>Edit <code>registry/config.json</code> in this repository.</li>
-          <li>Set <code>packageName</code>, <code>slug</code>, <code>projectType</code> (<code>mod</code> or <code>modpack</code>), <code>modLoader</code>, and <code>gameVersion</code> (prefix match, e.g. <code>1.20</code>).</li>
+          <li>Set <code>slug</code>, <code>projectType</code> (<code>mod</code> or <code>modpack</code>), <code>modLoader</code>, and <code>gameVersion</code> (prefix match, e.g. <code>1.20</code>).</li>
           <li>Add a <code>CURSEFORGE_API_KEY</code> repository secret (from <a href="https://console.curseforge.com/">CurseForge for Studios</a>).</li>
           <li>Run the <em>Update CurseForge registry</em> GitHub Action or wait for the scheduled refresh.</li>
         </ol>
@@ -191,6 +205,8 @@
         <h2>Response format</h2>
         <p>Each registry URL returns Renovate-compatible JSON:</p>
         <pre>{
+  "sourceUrl": "https://github.com/ClarisseGilles/ClarisseGilles.github.io",
+  "sourceDirectory": "changelogs/1.20/neoforge/distant-horizons",
   "releases": [
     {
       "version": "8037637",

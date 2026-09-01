@@ -1,22 +1,20 @@
 {
   "baseUrl": "https://clarissegilles.github.io/registry",
+  "sourceUrl": "https://github.com/ClarisseGilles/ClarisseGilles.github.io",
   "mods": [
     {
-      "packageName": "distant-horizons/neoforge/1.20",
       "slug": "distant-horizons",
       "projectType": "mod",
       "modLoader": "NeoForge",
       "gameVersion": "1.20"
     },
     {
-      "packageName": "simple-voice-chat/neoforge/1.20",
       "slug": "simple-voice-chat",
       "projectType": "mod",
       "modLoader": "NeoForge",
       "gameVersion": "1.20"
     },
     {
-      "packageName": "all-the-mons/neoforge/1.20",
       "slug": "all-the-mons",
       "projectType": "modpack",
       "modLoader": "NeoForge",
