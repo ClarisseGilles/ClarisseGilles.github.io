@@ -18,6 +18,7 @@ permissions:
 jobs:
   update-registry:
     runs-on: ubuntu-latest
+    environment: curseforge
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
@@ -34,7 +35,7 @@ jobs:
             echo "Using CURSEFORGE_API_KEY from repository variables"
             echo "CURSEFORGE_API_KEY=$KEY_FROM_VAR" >> "$GITHUB_ENV"
           else
-            echo "::error title=Missing CurseForge API key::Add a repository Actions secret named CURSEFORGE_API_KEY at https://github.com/${{ github.repository }}/settings/secrets/actions (Settings → Secrets and variables → Actions → Repository secrets). Environment-only secrets are not read unless you add an environment: block to this job."
+            echo "::error title=Missing CurseForge API key::Add CURSEFORGE_API_KEY to the curseforge environment at https://github.com/${{ github.repository }}/settings/environments (Settings → Environments → curseforge → Environment secrets). You can also use a repository secret or variable with the same name."
             exit 1
           fi
 
