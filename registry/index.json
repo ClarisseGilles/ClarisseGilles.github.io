@@ -2,19 +2,20 @@
   "description": "CurseForge mod registry for Renovate custom datasources",
   "baseUrl": "https://clarissegilles.github.io/registry",
   "sourceUrl": "https://github.com/ClarisseGilles/ClarisseGilles.github.io",
-  "updatedAt": "2026-09-01T00:00:00+00:00",
+  "updatedAt": "2026-09-01T14:42:12+00:00",
   "mods": [
     {
       "packageName": "1.21.1/neoforge/distant-horizons",
       "slug": "distant-horizons",
-      "name": "Distant Horizons",
+      "name": "Distant Horizons: A Level of Detail mod",
       "projectType": "mod",
       "modLoader": "NeoForge",
       "gameVersion": "1.21.1",
-      "latestVersion": "8037637",
+      "latestVersion": "8389148",
       "registryUrl": "https://clarissegilles.github.io/registry/1.21.1/neoforge/distant-horizons.json",
       "changelogUrl": "https://clarissegilles.github.io/changelogs/1.21.1/neoforge/distant-horizons/CHANGELOG.md",
-      "sourceDirectory": "changelogs/1.21.1/neoforge/distant-horizons"
+      "sourceDirectory": "changelogs/1.21.1/neoforge/distant-horizons",
+      "updatedAt": "2026-09-01T14:42:11+00:00"
     },
     {
       "packageName": "1.21.1/neoforge/simple-voice-chat",
@@ -23,22 +24,24 @@
       "projectType": "mod",
       "modLoader": "NeoForge",
       "gameVersion": "1.21.1",
-      "latestVersion": "8037683",
+      "latestVersion": "8464278",
       "registryUrl": "https://clarissegilles.github.io/registry/1.21.1/neoforge/simple-voice-chat.json",
       "changelogUrl": "https://clarissegilles.github.io/changelogs/1.21.1/neoforge/simple-voice-chat/CHANGELOG.md",
-      "sourceDirectory": "changelogs/1.21.1/neoforge/simple-voice-chat"
+      "sourceDirectory": "changelogs/1.21.1/neoforge/simple-voice-chat",
+      "updatedAt": "2026-09-01T14:42:11+00:00"
     },
     {
       "packageName": "1.21.1/neoforge/all-the-mons",
       "slug": "all-the-mons",
-      "name": "All the Mons",
+      "name": "All the Mons - ATMons",
       "projectType": "modpack",
       "modLoader": "NeoForge",
       "gameVersion": "1.21.1",
-      "latestVersion": "8089924",
+      "latestVersion": "8572588",
       "registryUrl": "https://clarissegilles.github.io/registry/1.21.1/neoforge/all-the-mons.json",
       "changelogUrl": "https://clarissegilles.github.io/changelogs/1.21.1/neoforge/all-the-mons/CHANGELOG.md",
-      "sourceDirectory": "changelogs/1.21.1/neoforge/all-the-mons"
+      "sourceDirectory": "changelogs/1.21.1/neoforge/all-the-mons",
+      "updatedAt": "2026-09-01T14:42:12+00:00"
     }
   ]
 }

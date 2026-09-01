@@ -1,6 +1,7 @@
 {
   "packageName": "1.21.1/neoforge/simple-voice-chat",
   "mod": {
+    "id": 498303,
     "slug": "simple-voice-chat",
     "name": "Simple Voice Chat",
     "projectType": "mod",
@@ -12,11 +13,52 @@
   "sourceUrl": "https://github.com/ClarisseGilles/ClarisseGilles.github.io",
   "sourceDirectory": "changelogs/1.21.1/neoforge/simple-voice-chat",
   "changelogUrl": "https://clarissegilles.github.io/changelogs/1.21.1/neoforge/simple-voice-chat/CHANGELOG.md",
-  "updatedAt": "2026-09-01T00:00:00+00:00",
+  "updatedAt": "2026-09-01T14:42:11+00:00",
   "releases": [
     {
-      "version": "8037683",
-      "changelogUrl": "https://www.curseforge.com/minecraft/mc-mods/simple-voice-chat/files/8037683"
+      "version": "8464278",
+      "releaseTimestamp": "2026-07-19T11:41:24.51Z",
+      "changelogUrl": "https://www.curseforge.com/minecraft/mc-mods/simple-voice-chat/files/8464278",
+      "displayName": "[BUKKIT/SPIGOT/PAPER] Simple Voice Chat 2.6.21",
+      "fileName": "voicechat-bukkit-2.6.21.jar",
+      "gameVersions": [
+        "1.20.6",
+        "1.21.2",
+        "1.21",
+        "1.21.3",
+        "1.16",
+        "1.19.3",
+        "1.20.2",
+        "1.21.8",
+        "1.18.1",
+        "1.20",
+        "1.20.4",
+        "1.21.4",
+        "1.19.2",
+        "1.20.5",
+        "1.21.5",
+        "1.20.1",
+        "1.20.3",
+        "1.21.7",
+        "1.17",
+        "1.21.1",
+        "1.18",
+        "1.12",
+        "1.21.6",
+        "1.19.4",
+        "1.8",
+        "1.19",
+        "1.18.2",
+        "1.19.1",
+        "1.21.9",
+        "1.21.10",
+        "1.21.11",
+        "26.1.1",
+        "26.1",
+        "26.1.2",
+        "26.2"
+      ],
+      "modLoaders": []
     }
   ]
 }

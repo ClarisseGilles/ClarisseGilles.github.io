@@ -1,8 +1,9 @@
 {
   "packageName": "1.21.1/neoforge/distant-horizons",
   "mod": {
+    "id": 508933,
     "slug": "distant-horizons",
-    "name": "Distant Horizons",
+    "name": "Distant Horizons: A Level of Detail mod",
     "projectType": "mod",
     "modLoader": "NeoForge",
     "gameVersion": "1.21.1"
@@ -12,11 +13,22 @@
   "sourceUrl": "https://github.com/ClarisseGilles/ClarisseGilles.github.io",
   "sourceDirectory": "changelogs/1.21.1/neoforge/distant-horizons",
   "changelogUrl": "https://clarissegilles.github.io/changelogs/1.21.1/neoforge/distant-horizons/CHANGELOG.md",
-  "updatedAt": "2026-09-01T00:00:00+00:00",
+  "updatedAt": "2026-09-01T14:42:11+00:00",
   "releases": [
     {
-      "version": "8037637",
-      "changelogUrl": "https://www.curseforge.com/minecraft/mc-mods/distant-horizons/files/8037637"
+      "version": "8389148",
+      "releaseTimestamp": "2026-07-07T20:28:23.42Z",
+      "changelogUrl": "https://www.curseforge.com/minecraft/mc-mods/distant-horizons/files/8389148",
+      "displayName": "3.2.0-b - 1.21.1 neo/fabric",
+      "fileName": "DistantHorizons-3.2.0-b-1.21.1-fabric-neoforge.jar",
+      "gameVersions": [
+        "Client",
+        "Fabric",
+        "1.21.1",
+        "NeoForge",
+        "Server"
+      ],
+      "modLoaders": []
     }
   ]
 }

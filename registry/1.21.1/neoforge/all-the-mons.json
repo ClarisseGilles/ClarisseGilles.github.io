@@ -1,8 +1,9 @@
 {
   "packageName": "1.21.1/neoforge/all-the-mons",
   "mod": {
+    "id": 1356598,
     "slug": "all-the-mons",
-    "name": "All the Mons",
+    "name": "All the Mons - ATMons",
     "projectType": "modpack",
     "modLoader": "NeoForge",
     "gameVersion": "1.21.1"
@@ -12,11 +13,19 @@
   "sourceUrl": "https://github.com/ClarisseGilles/ClarisseGilles.github.io",
   "sourceDirectory": "changelogs/1.21.1/neoforge/all-the-mons",
   "changelogUrl": "https://clarissegilles.github.io/changelogs/1.21.1/neoforge/all-the-mons/CHANGELOG.md",
-  "updatedAt": "2026-09-01T00:00:00+00:00",
+  "updatedAt": "2026-09-01T14:42:12+00:00",
   "releases": [
     {
-      "version": "8089924",
-      "changelogUrl": "https://www.curseforge.com/minecraft/modpacks/all-the-mons/files/8089924"
+      "version": "8572588",
+      "releaseTimestamp": "2026-08-03T23:42:37.26Z",
+      "changelogUrl": "https://www.curseforge.com/minecraft/modpacks/all-the-mons/files/8572588",
+      "displayName": "All the Mons-1.2.0",
+      "fileName": "All the Mons-1.2.0.zip",
+      "gameVersions": [
+        "1.21.1",
+        "NeoForge"
+      ],
+      "modLoaders": []
     }
   ]
 }
