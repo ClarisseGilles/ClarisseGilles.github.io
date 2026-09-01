@@ -1,5 +1,12 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":rebaseStalePrs"
+  ],
+  "enabledManagers": [
+    "custom.regex"
+  ],
   "customDatasources": {
     "clarissegilles-curseforge": {
       "defaultRegistryUrlTemplate": "https://clarissegilles.github.io/registry/{{packageName}}.json",
