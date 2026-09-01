@@ -36,6 +36,16 @@ PROJECT_TYPE_PATHS = {
     "modpack": "modpacks",
 }
 
+SERVER_PLUGIN_MARKERS = (
+    "bukkit",
+    "spigot",
+    "paper",
+    "purpur",
+    "velocity",
+    "waterfall",
+    "bungeecord",
+)
+
 
 class HTMLToText(HTMLParser):
     def __init__(self) -> None:
@@ -84,13 +94,25 @@ def api_request(path: str, api_key: str) -> dict:
         return json.load(response)
 
 
-def search_mod(slug: str, project_type: str, api_key: str) -> dict:
+def search_mod(
+    slug: str,
+    project_type: str,
+    api_key: str,
+    *,
+    game_version: str = "",
+    mod_loader: str = "",
+) -> dict:
     params = {
         "gameId": str(MINECRAFT_GAME_ID),
         "slug": slug,
     }
     if project_type == "modpack":
         params["classId"] = str(MODPACK_CLASS_ID)
+    if game_version:
+        params["gameVersion"] = game_version
+    loader_type = MOD_LOADER_TYPES.get(mod_loader.lower(), 0)
+    if loader_type:
+        params["modLoaderType"] = str(loader_type)
 
     query = urllib.parse.urlencode(params)
     payload = api_request(f"/mods/search?{query}", api_key)
@@ -98,6 +120,14 @@ def search_mod(slug: str, project_type: str, api_key: str) -> dict:
     if not mods:
         raise LookupError(f"No CurseForge project found for slug '{slug}' ({project_type})")
     return mods[0]
+
+
+def fetch_mod_file(mod_id: int, file_id: int, api_key: str) -> dict:
+    payload = api_request(f"/mods/{mod_id}/files/{file_id}", api_key)
+    file_info = payload.get("data")
+    if not file_info:
+        raise LookupError(f"CurseForge file {file_id} was not found for mod {mod_id}")
+    return file_info
 
 
 def fetch_changelog(mod_id: int, file_id: int, api_key: str) -> str:
@@ -125,33 +155,65 @@ def file_game_versions(file_info: dict) -> list[str]:
     return versions
 
 
-def loader_matches(
-    file_loaders: list[dict],
-    mod_loader: str,
-    *,
-    api_loader_filtered: bool,
-) -> bool:
-    if not mod_loader:
-        return True
+def file_label(file_info: dict) -> str:
+    return " ".join(
+        part
+        for part in (
+            str(file_info.get("id", "")),
+            file_info.get("displayName", ""),
+            file_info.get("fileName", ""),
+        )
+        if part
+    ).lower()
 
-    # CurseForge often omits loader metadata on cross-loader jars. When no
-    # loaders are listed we can only match on game version.
-    if not file_loaders:
-        return True
 
+def is_server_plugin_file(file_info: dict) -> bool:
+    label = file_label(file_info)
+    return any(marker in label for marker in SERVER_PLUGIN_MARKERS)
+
+
+def loader_type_matches(loader_type: object, mod_loader: str) -> bool:
     expected = mod_loader.lower()
     expected_id = MOD_LOADER_TYPES.get(expected)
+    if isinstance(loader_type, int):
+        return loader_type == expected_id
+    normalized = str(loader_type).lower()
+    return normalized == expected or normalized == str(expected_id)
+
+
+def loader_matches(file_loaders: list[dict], mod_loader: str) -> bool:
+    if not mod_loader:
+        return True
     for loader in file_loaders:
-        loader_type = loader.get("type")
-        if isinstance(loader_type, int):
-            if loader_type == expected_id:
-                return True
-            name = MOD_LOADER_TYPE_NAMES.get(loader_type, "")
-            if name == expected:
-                return True
-        elif str(loader_type).lower() == expected:
+        if loader_type_matches(loader.get("type"), mod_loader):
             return True
     return False
+
+
+def loader_mentioned_in_file(file_info: dict, mod_loader: str) -> bool:
+    label = file_label(file_info)
+    loader = mod_loader.lower()
+    aliases = {
+        "neoforge": ("neoforge", "neo-forge", "neo_forge"),
+        "forge": ("forge",),
+        "fabric": ("fabric",),
+        "quilt": ("quilt",),
+    }
+    return any(alias in label for alias in aliases.get(loader, (loader,)))
+
+
+def is_matching_mod_file(file_info: dict, mod_loader: str, game_version_prefix: str) -> bool:
+    if is_server_plugin_file(file_info):
+        return False
+    if not version_matches_prefix(file_game_versions(file_info), game_version_prefix):
+        return False
+
+    file_loaders = file_info.get("modLoaders") or []
+    if file_loaders:
+        return loader_matches(file_loaders, mod_loader)
+
+    # Some mod jars omit modLoaders but include the loader in the file name.
+    return loader_mentioned_in_file(file_info, mod_loader)
 
 
 def fetch_mod_files(mod_id: int, params: dict[str, str], api_key: str) -> list[dict]:
@@ -173,10 +235,28 @@ def describe_recent_files(files: list[dict], limit: int = 5) -> str:
                 loader_labels.append(str(loader_type))
         lines.append(
             f"- {file_info.get('id')}: "
+            f"{file_info.get('displayName')} "
+            f"({file_info.get('fileName')}) "
             f"versions={file_game_versions(file_info)} "
             f"loaders={loader_labels or ['(none listed)']}"
         )
     return "\n".join(lines)
+
+
+def resolve_file_id_from_indexes(
+    mod_info: dict,
+    mod_loader: str,
+    game_version_prefix: str,
+) -> int | None:
+    for index in mod_info.get("latestFilesIndexes") or []:
+        index_version = index.get("gameVersion", "")
+        if not version_matches_prefix([index_version], game_version_prefix):
+            continue
+        if loader_type_matches(index.get("modLoader"), mod_loader):
+            file_id = index.get("fileId")
+            if file_id is not None:
+                return int(file_id)
+    return None
 
 
 def fetch_matching_files(
@@ -186,61 +266,63 @@ def fetch_matching_files(
     api_key: str,
 ) -> list[dict]:
     loader_type = MOD_LOADER_TYPES.get(mod_loader.lower(), 0)
-
-    def filter_files(files: list[dict], *, api_loader_filtered: bool) -> list[dict]:
-        matching = []
-        for file_info in files:
-            if not version_matches_prefix(file_game_versions(file_info), game_version_prefix):
-                continue
-            if not loader_matches(
-                file_info.get("modLoaders") or [],
-                mod_loader,
-                api_loader_filtered=api_loader_filtered,
-            ):
-                continue
-            matching.append(file_info)
-        matching.sort(key=lambda item: item.get("fileDate", ""), reverse=True)
-        return matching
-
-    query_variants: list[tuple[dict[str, str], bool]] = []
+    query_variants: list[dict[str, str]] = []
     base_params: dict[str, str] = {"pageSize": "50", "index": "0"}
 
     if loader_type and game_version_prefix:
         query_variants.append(
-            (
-                {**base_params, "modLoaderType": str(loader_type), "gameVersion": game_version_prefix},
-                True,
-            )
+            {**base_params, "modLoaderType": str(loader_type), "gameVersion": game_version_prefix}
         )
     if loader_type:
-        query_variants.append(({**base_params, "modLoaderType": str(loader_type)}, True))
-    if game_version_prefix:
-        query_variants.append(({**base_params, "gameVersion": game_version_prefix}, False))
-    query_variants.append((base_params, False))
+        query_variants.append({**base_params, "modLoaderType": str(loader_type)})
 
     seen_queries: set[str] = set()
-    for params, api_loader_filtered in query_variants:
+    matching: list[dict] = []
+    for params in query_variants:
         query_key = urllib.parse.urlencode(sorted(params.items()))
         if query_key in seen_queries:
             continue
         seen_queries.add(query_key)
 
-        files = fetch_mod_files(mod_id, params, api_key)
-        matching = filter_files(files, api_loader_filtered=api_loader_filtered)
-        if matching:
-            return matching
+        for file_info in fetch_mod_files(mod_id, params, api_key):
+            if is_matching_mod_file(file_info, mod_loader, game_version_prefix):
+                matching.append(file_info)
 
-        if api_loader_filtered:
-            fallback = [
-                file_info
-                for file_info in files
-                if version_matches_prefix(file_game_versions(file_info), game_version_prefix)
-            ]
-            fallback.sort(key=lambda item: item.get("fileDate", ""), reverse=True)
-            if fallback:
-                return fallback
+    matching.sort(key=lambda item: item.get("fileDate", ""), reverse=True)
+    return matching
 
-    return []
+
+def resolve_latest_file(
+    mod_info: dict,
+    mod_loader: str,
+    game_version_prefix: str,
+    api_key: str,
+) -> dict:
+    file_id = resolve_file_id_from_indexes(mod_info, mod_loader, game_version_prefix)
+    if file_id is not None:
+        file_info = fetch_mod_file(mod_info["id"], file_id, api_key)
+        if is_matching_mod_file(file_info, mod_loader, game_version_prefix):
+            return file_info
+
+    for file_info in mod_info.get("latestFiles") or []:
+        if is_matching_mod_file(file_info, mod_loader, game_version_prefix):
+            return file_info
+
+    matching_files = fetch_matching_files(
+        mod_info["id"],
+        mod_loader,
+        game_version_prefix,
+        api_key,
+    )
+    if matching_files:
+        return matching_files[0]
+
+    recent_files = fetch_mod_files(mod_info["id"], {"pageSize": "5", "index": "0"}, api_key)
+    hint = describe_recent_files(recent_files)
+    raise LookupError(
+        f"No {mod_loader} {game_version_prefix} mod file found for mod {mod_info.get('id')}.\n"
+        f"Recent CurseForge files for this project:\n{hint}"
+    )
 
 
 def upsert_changelog_section(
@@ -290,10 +372,8 @@ def build_release(
     project_type: str,
     curseforge_changelog_url: str,
 ) -> dict:
-    file_id = str(file_info["id"])
-    path_segment = PROJECT_TYPE_PATHS[project_type]
     release = {
-        "version": file_id,
+        "version": str(file_info["id"]),
         "releaseTimestamp": file_info.get("fileDate"),
         "changelogUrl": curseforge_changelog_url,
         "displayName": file_info.get("displayName"),
@@ -362,7 +442,6 @@ def write_registry_file(registry_dir: Path, package: str, payload: dict) -> Path
 def main() -> int:
     repo_root = Path(__file__).resolve().parents[1]
     registry_dir = repo_root / "registry"
-    changelogs_dir = repo_root / "changelogs"
     config_path = registry_dir / "config.json"
 
     api_key = os.environ.get("CURSEFORGE_API_KEY", "").strip()
@@ -405,31 +484,20 @@ def main() -> int:
             slug=mod_config["slug"],
             project_type=mod_config["projectType"],
             api_key=api_key,
+            game_version=mod_config.get("gameVersion", ""),
+            mod_loader=mod_config.get("modLoader", ""),
         )
-        matching_files = fetch_matching_files(
-            mod_id=mod_info["id"],
+        latest_file = resolve_latest_file(
+            mod_info,
             mod_loader=mod_config.get("modLoader", ""),
             game_version_prefix=mod_config.get("gameVersion", ""),
             api_key=api_key,
         )
-        if not matching_files:
-            recent_files = fetch_mod_files(
-                mod_info["id"],
-                {"pageSize": "5", "index": "0"},
-                api_key,
-            )
-            hint = describe_recent_files(recent_files)
-            raise LookupError(
-                f"No files found for {package} "
-                f"({mod_config.get('modLoader')} {mod_config.get('gameVersion')}).\n"
-                f"Recent CurseForge files for this project:\n{hint}"
-            )
 
-        latest_file = matching_files[0]
         file_id = int(latest_file["id"])
         changelog_body = fetch_changelog(mod_info["id"], file_id, api_key)
 
-        changelog_path = changelogs_dir / changelog_dir / "CHANGELOG.md"
+        changelog_path = repo_root / changelog_dir / "CHANGELOG.md"
         changelog_path.parent.mkdir(parents=True, exist_ok=True)
         existing_changelog = (
             changelog_path.read_text(encoding="utf-8") if changelog_path.exists() else ""
@@ -471,7 +539,10 @@ def main() -> int:
                 "updatedAt": payload["updatedAt"],
             }
         )
-        print(f"  latest file id: {payload['releases'][0]['version']}")
+        print(
+            f"  latest file id: {payload['releases'][0]['version']} "
+            f"({latest_file.get('fileName')})"
+        )
 
     index_payload = {
         "description": "CurseForge mod registry for Renovate custom datasources",
