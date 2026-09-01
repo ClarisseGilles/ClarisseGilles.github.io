@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CurseForge Registry for Renovate</title>
+  <style>
+    :root {
+      --bg-dark: #11170f;
+      --bg-panel: #1c2a17;
+      --bg-panel-2: #24381e;
+      --accent: #7fbf3f;
+      --text: #e8f5dd;
+      --muted: #b7cba7;
+      --border: #35512b;
+      --shadow: rgba(0, 0, 0, 0.35);
+      --code-bg: #1a2815;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Trebuchet MS", "Verdana", sans-serif;
+      color: var(--text);
+      background:
+        linear-gradient(180deg, rgba(23, 36, 20, 0.92), rgba(12, 17, 10, 0.96)),
+        repeating-linear-gradient(45deg, #2f4a28 0px, #2f4a28 16px, #35512b 16px, #35512b 32px);
+      display: flex;
+      justify-content: center;
+      padding: 40px 16px;
+    }
+
+    .wrapper {
+      width: min(960px, 100%);
+      background: linear-gradient(180deg, var(--bg-panel), var(--bg-panel-2));
+      border: 3px solid var(--border);
+      box-shadow: 0 14px 30px var(--shadow);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .hero, .content { padding: 24px; }
+    .hero { border-bottom: 2px solid var(--border); background: linear-gradient(180deg, #2f4c27, #2a4323); }
+    .badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #dfffcf;
+      background: #3b5f30;
+      border: 1px solid #5f8f4d;
+      padding: 5px 9px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+
+    h1 { margin: 0 0 10px; font-size: clamp(1.6rem, 2.4vw, 2.2rem); }
+    h2 { margin: 24px 0 10px; font-size: 1.15rem; }
+    p, li { line-height: 1.55; color: var(--muted); }
+    a { color: #d8ffb8; }
+    a:hover { color: #fff; }
+
+    .section {
+      background: rgba(14, 21, 12, 0.55);
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+    }
+
+    th, td {
+      border: 1px solid #446838;
+      padding: 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th { background: #2a4323; color: #ecffe0; }
+
+    code, pre {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      background: var(--code-bg);
+      border: 1px solid #4b6e3d;
+      border-radius: 8px;
+    }
+
+    code { padding: 2px 6px; font-size: 0.88rem; }
+    pre {
+      padding: 12px;
+      overflow-x: auto;
+      color: #eaffde;
+      font-size: 0.84rem;
+      line-height: 1.45;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .nav { margin-top: 12px; font-size: 0.95rem; }
+  </style>
+</head>
+<body>
+  <main class="wrapper">
+    <header class="hero">
+      <span class="badge">Renovate Registry</span>
+      <h1>CurseForge Mod Registry</h1>
+      <p>
+        Machine-readable CurseForge file IDs for Minecraft mods and modpacks, filtered by
+        Minecraft version and mod loader. Point Renovate at these JSON endpoints from another
+        repository to get automatic update PRs.
+      </p>
+      <p class="nav"><a href="mc.html">Back to server page</a></p>
+    </header>
+
+    <section class="content">
+      <article class="section">
+        <h2>Tracked mods</h2>
+        <p>Each entry is published at <code>registry/&lt;slug&gt;/&lt;loader&gt;/&lt;version&gt;.json</code>.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Package name</th>
+              <th>Filter</th>
+              <th>Latest file ID</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>distant-horizons/neoforge/1.20</code></td>
+              <td>NeoForge, Minecraft 1.20.x</td>
+              <td><a href="registry/distant-horizons/neoforge/1.20.json">8037637</a></td>
+            </tr>
+            <tr>
+              <td><code>simple-voice-chat/neoforge/1.20</code></td>
+              <td>NeoForge, Minecraft 1.20.x</td>
+              <td><a href="registry/simple-voice-chat/neoforge/1.20.json">8037683</a></td>
+            </tr>
+            <tr>
+              <td><code>all-the-mons/neoforge/1.20</code></td>
+              <td>NeoForge modpack, Minecraft 1.20.x</td>
+              <td><a href="registry/all-the-mons/neoforge/1.20.json">8089924</a></td>
+            </tr>
+          </tbody>
+        </table>
+        <p>Full index: <a href="registry/index.json">registry/index.json</a></p>
+      </article>
+
+      <article class="section">
+        <h2>Renovate setup (consumer repository)</h2>
+        <p>Add this custom datasource to your <code>renovate.json</code> in the repository you want Renovate to update:</p>
+        <pre>{
+  "customDatasources": {
+    "clarissegilles-curseforge": {
+      "defaultRegistryUrlTemplate": "https://clarissegilles.github.io/registry/{{packageName}}.json",
+      "transformTemplates": ["$"]
+    }
+  }
+}</pre>
+        <p>Then track file IDs in a manifest like <code>mods.json</code>:</p>
+        <pre>{
+  "distant-horizons/neoforge/1.20": {
+    "fileId": "8037637"
+  }
+}</pre>
+        <p>Use the regex custom manager from <a href="registry/renovate-example.json">registry/renovate-example.json</a>.</p>
+        <p>
+          For Distant Horizons NeoForge 1.20 updates only, set
+          <code>depName</code> to <code>distant-horizons/neoforge/1.20</code>.
+          The registry only publishes files that match the configured loader and Minecraft version prefix.
+        </p>
+      </article>
+
+      <article class="section">
+        <h2>Adding or changing tracked mods</h2>
+        <ol>
+          <li>Edit <code>registry/config.json</code> in this repository.</li>
+          <li>Set <code>packageName</code>, <code>slug</code>, <code>projectType</code> (<code>mod</code> or <code>modpack</code>), <code>modLoader</code>, and <code>gameVersion</code> (prefix match, e.g. <code>1.20</code>).</li>
+          <li>Add a <code>CURSEFORGE_API_KEY</code> repository secret (from <a href="https://console.curseforge.com/">CurseForge for Studios</a>).</li>
+          <li>Run the <em>Update CurseForge registry</em> GitHub Action or wait for the scheduled refresh.</li>
+        </ol>
+      </article>
+
+      <article class="section">
+        <h2>Response format</h2>
+        <p>Each registry URL returns Renovate-compatible JSON:</p>
+        <pre>{
+  "releases": [
+    {
+      "version": "8037637",
+      "releaseTimestamp": "2025-08-01T12:34:56Z",
+      "changelogUrl": "https://www.curseforge.com/minecraft/mc-mods/distant-horizons/files/8037637"
+    }
+  ],
+  "homepage": "https://www.curseforge.com/minecraft/mc-mods/distant-horizons"
+}</pre>
+        <p>Versions are CurseForge file IDs (not semver), so use <code>versioning: loose</code> in Renovate.</p>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

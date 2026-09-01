@@ -1,0 +1,19 @@
+{
+  "packageName": "all-the-mons/neoforge/1.20",
+  "mod": {
+    "slug": "all-the-mons",
+    "name": "All the Mons",
+    "projectType": "modpack",
+    "modLoader": "NeoForge",
+    "gameVersion": "1.20"
+  },
+  "homepage": "https://www.curseforge.com/minecraft/modpacks/all-the-mons",
+  "registryUrl": "https://clarissegilles.github.io/registry/all-the-mons/neoforge/1.20.json",
+  "updatedAt": "2026-09-01T00:00:00+00:00",
+  "releases": [
+    {
+      "version": "8089924",
+      "changelogUrl": "https://www.curseforge.com/minecraft/modpacks/all-the-mons/files/8089924"
+    }
+  ]
+}

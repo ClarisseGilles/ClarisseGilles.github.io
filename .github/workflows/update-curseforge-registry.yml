@@ -1,0 +1,41 @@
+name: Update CurseForge registry
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - registry/config.json
+      - scripts/update_curseforge_registry.py
+      - .github/workflows/update-curseforge-registry.yml
+
+permissions:
+  contents: write
+
+jobs:
+  update-registry:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Update registry from CurseForge API
+        env:
+          CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
+        run: python3 scripts/update_curseforge_registry.py
+
+      - name: Commit registry updates
+        run: |
+          if git diff --quiet; then
+            echo "Registry is already up to date"
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add registry/
+          git commit -m "Update CurseForge registry"
+          git push

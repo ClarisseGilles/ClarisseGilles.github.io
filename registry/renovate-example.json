@@ -1,0 +1,40 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "customDatasources": {
+    "clarissegilles-curseforge": {
+      "defaultRegistryUrlTemplate": "https://clarissegilles.github.io/registry/{{packageName}}.json",
+      "transformTemplates": ["$"]
+    }
+  },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Track CurseForge file IDs in a mods manifest",
+      "managerFilePatterns": ["/mods\\.json$/"],
+      "matchStrings": [
+        "\"(?<depName>[^\"]+)\":\\s*\\{[^}]*\"fileId\":\\s*\"(?<currentValue>\\d+)\""
+      ],
+      "datasourceTemplate": "custom.clarissegilles-curseforge",
+      "depNameTemplate": "{{depName}}",
+      "versioningTemplate": "loose"
+    },
+    {
+      "customType": "regex",
+      "description": "Track CurseForge file IDs via Renovate comments",
+      "managerFilePatterns": ["/\\.ya?ml$/"],
+      "matchStrings": [
+        "#\\s*renovate:\\s*datasource=custom\\.clarissegilles-curseforge\\s+depName=(?<depName>[^\\s]+)\\s+versioning=loose\\s*\\n\\s*\\w+:\\s*\"(?<currentValue>\\d+)\""
+      ],
+      "datasourceTemplate": "custom.clarissegilles-curseforge",
+      "depNameTemplate": "{{depName}}",
+      "versioningTemplate": "loose"
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "Group CurseForge mod updates together",
+      "matchDatasources": ["custom.clarissegilles-curseforge"],
+      "groupName": "curseforge mods"
+    }
+  ]
+}
