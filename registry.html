@@ -165,7 +165,7 @@
 }</pre>
         <p>Then track file IDs in a manifest like <code>mods.json</code>:</p>
         <pre>{
-  "1.20/neoforge/distant-horizons": {
+  "1.21.1/neoforge/distant-horizons": {
     "fileId": "8037637"
   }
 }</pre>
@@ -196,7 +196,7 @@
         <ol>
           <li>Edit <code>registry/config.json</code> in this repository.</li>
           <li>Set <code>slug</code>, <code>projectType</code> (<code>mod</code> or <code>modpack</code>), <code>modLoader</code>, and <code>gameVersion</code> (prefix match, e.g. <code>1.20</code>).</li>
-          <li>Add a <code>CURSEFORGE_API_KEY</code> repository secret (from <a href="https://console.curseforge.com/">CurseForge for Studios</a>).</li>
+          <li>Add a <code>CURSEFORGE_API_KEY</code> <strong>repository</strong> secret under <a href="https://github.com/ClarisseGilles/ClarisseGilles.github.io/settings/secrets/actions">Settings → Secrets and variables → Actions → Repository secrets</a> (the name must match exactly). Environment-only secrets are not used unless the workflow is updated to target that environment.</li>
           <li>Run the <em>Update CurseForge registry</em> GitHub Action or wait for the scheduled refresh.</li>
         </ol>
       </article>
