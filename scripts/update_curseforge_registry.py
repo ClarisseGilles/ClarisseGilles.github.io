@@ -438,6 +438,40 @@ def parse_changelog_versions(changelog_content: str) -> list[str]:
     return re.findall(r"^##\s+(\S+)\s*$", changelog_content, re.MULTILINE)
 
 
+def ensure_minimum_release_history(
+    releases: list[dict],
+    latest_file: dict,
+    mod_info: dict,
+    mod_config: dict,
+    api_key: str,
+) -> list[dict]:
+    """Renovate needs at least two registry releases to embed changelog dropdowns."""
+    if len(releases) >= 2:
+        return releases
+
+    loader_files = fetch_loader_filtered_files(
+        mod_info["id"],
+        mod_config.get("modLoader", ""),
+        mod_config.get("gameVersion", ""),
+        api_key,
+    )
+    latest_id = str(latest_file["id"])
+    path_segment = PROJECT_TYPE_PATHS[mod_config["projectType"]]
+    slug = mod_config["slug"]
+
+    for file_info in loader_files:
+        file_id = str(file_info["id"])
+        if file_id == latest_id:
+            continue
+        changelog_url = (
+            f"https://www.curseforge.com/minecraft/{path_segment}/{slug}/files/{file_id}"
+        )
+        previous_release = build_release(file_info, slug, mod_config["projectType"], changelog_url)
+        return merge_releases(releases, previous_release)
+
+    return releases
+
+
 def merge_releases(existing_releases: list[dict], latest_release: dict) -> list[dict]:
     by_version = {str(release["version"]): release for release in existing_releases}
     by_version[str(latest_release["version"])] = latest_release
@@ -607,6 +641,13 @@ def main() -> int:
             changelog_path.read_text(encoding="utf-8")
         )
         releases = merge_releases(existing_releases, latest_release)
+        releases = ensure_minimum_release_history(
+            releases,
+            latest_file,
+            mod_info,
+            mod_config,
+            api_key,
+        )
         releases = ensure_release_entries(
             releases,
             changelog_versions,

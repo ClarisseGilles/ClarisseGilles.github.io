@@ -15,3 +15,5 @@ Fix double inventory related inventory invalidation issues
 Avoid crashing when modded levels with broken registries are created
 
 Fix comparator updates missing for furnaces and brewing stands
+
+## 7740400
