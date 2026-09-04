@@ -13,8 +13,23 @@
   "sourceUrl": "https://github.com/ClarisseGilles/ClarisseGilles.github.io",
   "sourceDirectory": "changelogs/1.21.1/neoforge/simple-voice-chat",
   "changelogUrl": "https://clarissegilles.github.io/changelogs/1.21.1/neoforge/simple-voice-chat/CHANGELOG.md",
-  "updatedAt": "2026-09-04T16:09:35+00:00",
+  "updatedAt": "2026-09-04T20:38:41+00:00",
   "releases": [
+    {
+      "version": "8807853",
+      "releaseTimestamp": "2026-09-04T15:49:21.71Z",
+      "changelogUrl": "https://www.curseforge.com/minecraft/mc-mods/simple-voice-chat/files/8807853",
+      "displayName": "[NEOFORGE][1.21.1] Simple Voice Chat 1.21.1-2.6.23",
+      "fileName": "voicechat-neoforge-1.21.1-2.6.23.jar",
+      "gameVersions": [
+        "1.21",
+        "Client",
+        "1.21.1",
+        "NeoForge",
+        "Server"
+      ],
+      "modLoaders": []
+    },
     {
       "version": "8601207",
       "releaseTimestamp": "2026-08-08T11:51:16.387Z",
