@@ -2,7 +2,7 @@
   "description": "CurseForge mod registry for Renovate custom datasources",
   "baseUrl": "https://clarissegilles.github.io/registry",
   "sourceUrl": "https://github.com/ClarisseGilles/ClarisseGilles.github.io",
-  "updatedAt": "2026-09-03T20:52:05+00:00",
+  "updatedAt": "2026-09-04T04:04:23+00:00",
   "mods": [
     {
       "packageName": "1.21.1/neoforge/distant-horizons",
@@ -15,7 +15,7 @@
       "registryUrl": "https://clarissegilles.github.io/registry/1.21.1/neoforge/distant-horizons.json",
       "changelogUrl": "https://clarissegilles.github.io/changelogs/1.21.1/neoforge/distant-horizons/CHANGELOG.md",
       "sourceDirectory": "changelogs/1.21.1/neoforge/distant-horizons",
-      "updatedAt": "2026-09-03T20:52:02+00:00"
+      "updatedAt": "2026-09-04T04:04:21+00:00"
     },
     {
       "packageName": "1.21.1/neoforge/simple-voice-chat",
@@ -28,7 +28,7 @@
       "registryUrl": "https://clarissegilles.github.io/registry/1.21.1/neoforge/simple-voice-chat.json",
       "changelogUrl": "https://clarissegilles.github.io/changelogs/1.21.1/neoforge/simple-voice-chat/CHANGELOG.md",
       "sourceDirectory": "changelogs/1.21.1/neoforge/simple-voice-chat",
-      "updatedAt": "2026-09-03T20:52:02+00:00"
+      "updatedAt": "2026-09-04T04:04:21+00:00"
     },
     {
       "packageName": "1.21.1/neoforge/all-the-mons",
@@ -41,7 +41,7 @@
       "registryUrl": "https://clarissegilles.github.io/registry/1.21.1/neoforge/all-the-mons.json",
       "changelogUrl": "https://clarissegilles.github.io/changelogs/1.21.1/neoforge/all-the-mons/CHANGELOG.md",
       "sourceDirectory": "changelogs/1.21.1/neoforge/all-the-mons",
-      "updatedAt": "2026-09-03T20:52:03+00:00"
+      "updatedAt": "2026-09-04T04:04:22+00:00"
     },
     {
       "packageName": "1.21.1/neoforge/c2me",
@@ -54,7 +54,7 @@
       "registryUrl": "https://clarissegilles.github.io/registry/1.21.1/neoforge/c2me.json",
       "changelogUrl": "https://clarissegilles.github.io/changelogs/1.21.1/neoforge/c2me/CHANGELOG.md",
       "sourceDirectory": "changelogs/1.21.1/neoforge/c2me",
-      "updatedAt": "2026-09-03T20:52:03+00:00"
+      "updatedAt": "2026-09-04T04:04:22+00:00"
     },
     {
       "packageName": "1.21.1/neoforge/noisiumforked",
@@ -67,7 +67,7 @@
       "registryUrl": "https://clarissegilles.github.io/registry/1.21.1/neoforge/noisiumforked.json",
       "changelogUrl": "https://clarissegilles.github.io/changelogs/1.21.1/neoforge/noisiumforked/CHANGELOG.md",
       "sourceDirectory": "changelogs/1.21.1/neoforge/noisiumforked",
-      "updatedAt": "2026-09-03T20:52:04+00:00"
+      "updatedAt": "2026-09-04T04:04:23+00:00"
     },
     {
       "packageName": "1.21.1/neoforge/lithium",
@@ -80,7 +80,7 @@
       "registryUrl": "https://clarissegilles.github.io/registry/1.21.1/neoforge/lithium.json",
       "changelogUrl": "https://clarissegilles.github.io/changelogs/1.21.1/neoforge/lithium/CHANGELOG.md",
       "sourceDirectory": "changelogs/1.21.1/neoforge/lithium",
-      "updatedAt": "2026-09-03T20:52:05+00:00"
+      "updatedAt": "2026-09-04T04:04:23+00:00"
     }
   ]
 }
