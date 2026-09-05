@@ -7,6 +7,7 @@ Fixed JoinGroupEvent being fired for wrong password attempts
 Fixed error when shutting down a server
 
 Improved resiliency against mods that change the camera off-thread
+
 ## 8601207
 
 Fixed some speakers breaking voice chat audio
