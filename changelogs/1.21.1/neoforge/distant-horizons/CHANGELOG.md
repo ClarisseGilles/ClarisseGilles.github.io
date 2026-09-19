@@ -1,5 +1,10 @@
 # Distant Horizons (NeoForge 1.21.1)
 
+## 8908517
+
+Bug Fixes:
+
+Fix Neoforge config options not using lang names
 ## 8389148
 
 Highlights:
