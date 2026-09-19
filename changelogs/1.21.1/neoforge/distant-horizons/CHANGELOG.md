@@ -5,6 +5,7 @@
 Bug Fixes:
 
 Fix Neoforge config options not using lang names
+
 ## 8389148
 
 Highlights:
