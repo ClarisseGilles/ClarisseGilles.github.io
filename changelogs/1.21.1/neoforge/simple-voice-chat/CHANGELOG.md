@@ -1,5 +1,12 @@
 # Simple Voice Chat (NeoForge 1.21.1)
 
+## 8928478
+
+Ignorevoice_hostin singleplayer and LAN worlds
+
+Improved sound manager error messages
+
+Added Thai translation
 ## 8807853
 
 Fixed JoinGroupEvent being fired for wrong password attempts
