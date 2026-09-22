@@ -69,6 +69,7 @@ Fix crash when iris fork and Gregtech is present on 1.12.2
 Fix DH disappearing when a glow is on screen for MC 26.3
 
 Fix 1.12.2 failing to apply Mixins if an old version of Cleanroom is used
+
 ## 8908517
 
 Bug Fixes:
