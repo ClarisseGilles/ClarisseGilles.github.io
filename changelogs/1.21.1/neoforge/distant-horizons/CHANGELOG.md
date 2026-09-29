@@ -1,5 +1,61 @@
 # Distant Horizons (NeoForge 1.21.1)
 
+## 9004764
+
+Highlights:
+
+Fix Iris on MC 26.1.2 and newer having rendering issues (most noticeable with Bliss shaders)
+Fix Iris 26.1.2+ not having access to DH's lightmap
+
+Fix Iris 26.1.2+ having incorrect blend
+
+Only disable DH world gen when Chunky world gen is also active
+
+Up config version 4 -> 5
+This will clear your config
+
+This is necessary to fix an issue where some users are missing necessary config values related to grass textures
+
+Full Changelog
+
+Changes:
+
+Allow 1.12.2 to run with just Mixinbooter instead of Cleanroom
+
+Only disable DH world gen when Chunky world gen is active
+This feature is only available for MC versions 1.19.2 and newer due to Chunky not providing the necessary API for older MC versions
+
+Up config version 4 -> 5
+This will clear your config
+
+This is necessary to fix an issue where some users are missing necessary config values related to grass textures
+
+Ignore DB shutdown errors in update propagator
+
+Start LWJGL 2/3 separation for future MC 1.7.10 support
+This shouldn't affect anything, if you notice any rendering issues please report them
+
+rate limit chunk read deserializing error logging
+
+Bug Fixes:
+
+Fix the chat world gen progress getting out of sync
+
+Fix singleplayer server references not closing
+
+Fix Karnatour not being included in the author list
+
+Fix an extremely rare GL crash if your GPU doesn't support GL 4.3 or vertex attribute binding
+
+Fix a rare neoforge lightmap wrapper crash
+
+Fix Iris not getting DH's bound lightmap on some versions
+
+Fix 26.3 world gen sometimes hanging the server thread on shutdown
+
+Fix LOD holes and LODs not generating for CLIENT_ONLY for 1.12.2
+
+Fix DH setting the blend state incorrectly for MC 26.1.2+
 ## 8943824
 
 Highlights:

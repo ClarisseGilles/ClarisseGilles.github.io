@@ -13,8 +13,23 @@
   "sourceUrl": "https://github.com/ClarisseGilles/ClarisseGilles.github.io",
   "sourceDirectory": "changelogs/1.21.1/neoforge/distant-horizons",
   "changelogUrl": "https://clarissegilles.github.io/changelogs/1.21.1/neoforge/distant-horizons/CHANGELOG.md",
-  "updatedAt": "2026-09-28T23:07:46+00:00",
+  "updatedAt": "2026-09-29T05:20:56+00:00",
   "releases": [
+    {
+      "version": "9004764",
+      "releaseTimestamp": "2026-09-29T00:02:01.137Z",
+      "changelogUrl": "https://www.curseforge.com/minecraft/mc-mods/distant-horizons/files/9004764",
+      "displayName": "3.3.3 - 1.21.1 neo/fabric",
+      "fileName": "DistantHorizons-3.3.3-1.21.1-fabric-neoforge.jar",
+      "gameVersions": [
+        "Client",
+        "Fabric",
+        "1.21.1",
+        "NeoForge",
+        "Server"
+      ],
+      "modLoaders": []
+    },
     {
       "version": "8943824",
       "releaseTimestamp": "2026-09-21T23:42:51.947Z",
