@@ -56,6 +56,7 @@ Fix 26.3 world gen sometimes hanging the server thread on shutdown
 Fix LOD holes and LODs not generating for CLIENT_ONLY for 1.12.2
 
 Fix DH setting the blend state incorrectly for MC 26.1.2+
+
 ## 8943824
 
 Highlights:
