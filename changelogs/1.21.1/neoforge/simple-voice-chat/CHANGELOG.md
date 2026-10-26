@@ -21,6 +21,7 @@ Fixed removing audio senders not returning if the actual audio sender has been r
 Fixed keybinds not applied properly from the voice chat settings screen
 
 Fixed potential race when opening to LAN
+
 ## 8928478
 
 Ignorevoice_hostin singleplayer and LAN worlds
