@@ -13,8 +13,22 @@
   "sourceUrl": "https://github.com/ClarisseGilles/ClarisseGilles.github.io",
   "sourceDirectory": "changelogs/1.21.1/neoforge/c2me",
   "changelogUrl": "https://clarissegilles.github.io/changelogs/1.21.1/neoforge/c2me/CHANGELOG.md",
-  "updatedAt": "2026-10-27T12:27:24+00:00",
+  "updatedAt": "2026-10-27T18:15:26+00:00",
   "releases": [
+    {
+      "version": "9344813",
+      "releaseTimestamp": "2026-10-27T17:03:24.333Z",
+      "changelogUrl": "https://www.curseforge.com/minecraft/mc-mods/c2me/files/9344813",
+      "displayName": "0.4.0-alpha.0.124 backport devbuild for 1.21.1",
+      "fileName": "c2me-neoforge-mc1.21.1-0.4.0-alpha.0.124.jar",
+      "gameVersions": [
+        "Client",
+        "1.21.1",
+        "NeoForge",
+        "Server"
+      ],
+      "modLoaders": []
+    },
     {
       "version": "9131675",
       "releaseTimestamp": "2026-10-11T16:40:24.427Z",
