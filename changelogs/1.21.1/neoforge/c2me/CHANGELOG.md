@@ -7,6 +7,7 @@ This version is uploaded automatically by GitHub Actions.
 Changelog:
 
 88b41272new: implement ChunkTicketLevelUpdatedEvent - ishland
+
 ## 9131675
 
 This version is uploaded automatically by GitHub Actions.
