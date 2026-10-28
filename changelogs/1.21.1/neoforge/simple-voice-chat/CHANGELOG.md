@@ -1,5 +1,12 @@
 # Simple Voice Chat (NeoForge 1.21.1)
 
+## 9350472
+
+Don't disconnect clients when receiving invalid data
+
+Log an error if the server tries to send a packet that's too large
+
+Allow skipping a packet in the API by throwing aProtocolException
 ## 9306988
 
 Fixed failing to join a group while in another group desyncing the clients state
