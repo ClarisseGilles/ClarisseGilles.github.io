@@ -1,5 +1,98 @@
 # All the Mons (NeoForge 1.21.1)
 
+## 9571494
+
+[Detailed changelog](https://github.com/AllTheMods/All-the-Mons/blob/main/CHANGELOG.md)
+
+Do a backup, as usual.
+
+HOTFIX 2.0.1
+
+Winning a battle against a trainer no longer crashes the server
+
+Lucario no longer crashes the game during battles or while sleeping
+
+Changelog
+
+2.0.0 moves the pack toCobblemon 1.8. Cobblemon now sizes Pokémon itself, has its own TMs (SimpleTMs is gone), and every addon has been updated to match. Existing TMs will go poof or turn into Blank TMs from Cobblemon, there is nothing you can do to save them, the same goes for TM Machines.
+
+Breeding keeps hidden abilities and regional forms,Polymorphis gone now that every recipe conflict is resolved in the pack, Discord shows your Pokédex progress, and Pokémon on the JourneyMap minimap are readable again.
+
+NeoForge updated to 21.1.265.
+
+Pack changes
+
+Bred Pokémon keep their hidden ability, it was lost whenever an egg was picked up or hatched in an incubator (LobsterJonn)
+
+Abilities are inherited by slot rather than by name, so an Eevee from a Vaporeon no longer hatches with Water Absorb (LobsterJonn)
+
+Breeding a Basculegion or a White-Striped Basculin now gives White-Striped Basculin (LobsterJonn)
+
+Regional-only evolutions like Perrserker, Obstagoon, Sirfetch'd, Clodsire, Overqwil or Sneasler now pass down their regional base form (LobsterJonn)
+
+A heated egg stays heated when picked up, keeps hatching twice as fast as an item and in an incubator, and is lit again when placed (LobsterJonn)
+
+Fixed the egg hatch time tooltip showing a raw translation key (LobsterJonn)
+
+Luck no longer multiplies the loot Cobblemon and CobbleNav add to vanilla chests and fishing, which flooded high-luck chests with Link Cables (LobsterJonn)
+
+New spawnNotificationRadius config so other nearby players also get spawn notifications (LobsterJonn)
+
+Setting replaceAnimalSpawn to false now leaves vanilla animals alone instead of deleting them without a replacement (LobsterJonn)
+
+Removed SimpleTMs, Cobblemon 1.8 provides its own TMs (LobsterJonn)
+
+Pokémon quests complete when you obtain the Pokémon, not only when you catch it, and Pokémon already in your party or PC count when you log in (#766, #770) (LobsterJonn)
+
+The paradox chapter is gated on the Paldean Pika Star alone (#770) (LobsterJonn)
+
+Kubfu is obtained from Mustard in Legendary Monuments instead of spawning in the wild (LobsterJonn)
+
+Fixed the imbued egg ritual not seeing its ingredients when the mechanical crafters are connected (#750) (LobsterJonn)
+
+Fixed quest dependencies and descriptions (#744, #760, #781) (LobsterJonn)
+
+Dusk Form Rockruff and Lycanroc now spawn (LobsterJonn)
+
+The Mythical Pecha Berry works as a seasoning (LobsterJonn)
+
+Bastion remnants always generate, so the Vibranium smithing template can be found (#776) (LobsterJonn)
+
+Sort buttons are back on containers (LobsterJonn)
+
+Disabled the Functional Storage Armory Cabinet (#772) (LobsterJonn)
+
+Apricorn planks sawing no longer clashes with the apricorn ball lid recipe (#709) (LobsterJonn)
+
+Removed Polymorph and its add-ons: recipe conflicts are resolved in the pack, so each crafting grid has one result (LobsterJonn)
+
+Fixed the harvest tier of the Vibranium and Unobtainium Silent Gear materials (LobsterJonn)
+
+Productive Farming seeds are sold at the Farming for Blockheads market instead of by villagers (LobsterJonn)
+
+Disabled the Ars Nouveau Starbuncle plush message (LobsterJonn)
+
+Discord Rich Presence is enabled, showing your Pokédex progress, with a Shiny Pika Star badge once you own one (LobsterJonn)
+
+Pokémon icons on the JourneyMap minimap are readable again, and alphas and other forms show their species icon instead of a smudge (LobsterJonn)
+
+Restored and rebalanced Oritech enchanting (#783) (item4)
+
+Removed duplicate silver processing recipes from Mekanism: More Machine (#753, #764) (item4)
+
+Added a Draconic Dragon Heart drop to Hostile Neural Networks (#777) (item4)
+
+Added compressed glass smelting recipes (#755) (item4)
+
+Hid more structures the pack does not generate from Explorer's Compass (#762, #768) (Zyian)
+
+Completed the Turkish quest translations (#767) (KorayWalker)
+
+Updated PT_BR localization (#747, #774) (PrincessStellar)
+
+Neoforge Version is21.1.265
+
+ALWAYS REMEMBER TO BACKUP BEFORE UPDATING
 ## 8822048
 
 [Detailed changelog](https://github.com/AllTheMods/All-the-Mons/blob/main/CHANGELOG.md)
