@@ -93,6 +93,7 @@ Updated PT_BR localization (#747, #774) (PrincessStellar)
 Neoforge Version is21.1.265
 
 ALWAYS REMEMBER TO BACKUP BEFORE UPDATING
+
 ## 8822048
 
 [Detailed changelog](https://github.com/AllTheMods/All-the-Mons/blob/main/CHANGELOG.md)
