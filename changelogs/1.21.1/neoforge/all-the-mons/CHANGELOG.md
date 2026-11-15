@@ -1,5 +1,38 @@
 # All the Mons (NeoForge 1.21.1)
 
+## 9635229
+
+[Detailed changelog](https://github.com/AllTheMods/All-the-Mons/blob/main/CHANGELOG.md)
+
+Changelog
+
+2.1.0 addsCobblemon Safari: find a Safari Gate, spend Safari Tickets and hunt rare Pokémon in a park dimension that changes every day. Legendaries, Mythicals, Ultra Beasts and Paradox Pokémon stay out of it.
+
+Raw Mega Stonesdrop from more places, Pokémon with the Pickup job findTMsagain, leftover TMs can be turned back into Blank TMs, and thePokéball Launcherfrom Berry Pouch works again.
+
+NeoForge updated to 21.1.266.
+
+Pack changes
+
+Raw Mega Stones also drop from tier 5 to 7 raids, high-level trainers outside the gym series, and Mega Showdown's Observatory, Archaeological Site and Wishing Weald loot (LobsterJonn)
+
+Pokémon with the Pickup job can find TMs again (LobsterJonn)
+
+Leftover TMs can be crafted back into Blank TMs with a bar of Soap (LobsterJonn)
+
+The Pokéball Launcher from Berry Pouch no longer shows as a missing model (LobsterJonn)
+
+The Soul Lava Ball shows its own model in the Pokéball Launcher, and the Ancient Soul Lava Ball shows up in it at all (LobsterJonn)
+
+Jade shows the name of caught Pokémon again (LobsterJonn)
+
+Hisuian Growlithe no longer drops your FPS and shows its own model instead of a placeholder (LobsterJonn)
+
+Quests that ask for your first catch can be completed again (#786) (LobsterJonn)
+
+Neoforge Version is21.1.266
+
+ALWAYS REMEMBER TO BACKUP BEFORE UPDATING
 ## 9571494
 
 [Detailed changelog](https://github.com/AllTheMods/All-the-Mons/blob/main/CHANGELOG.md)
