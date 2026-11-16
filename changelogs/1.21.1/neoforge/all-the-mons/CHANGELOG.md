@@ -33,6 +33,7 @@ Quests that ask for your first catch can be completed again (#786) (LobsterJonn)
 Neoforge Version is21.1.266
 
 ALWAYS REMEMBER TO BACKUP BEFORE UPDATING
+
 ## 9571494
 
 [Detailed changelog](https://github.com/AllTheMods/All-the-Mons/blob/main/CHANGELOG.md)
