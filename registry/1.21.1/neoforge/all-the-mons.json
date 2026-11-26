@@ -13,8 +13,20 @@
   "sourceUrl": "https://github.com/ClarisseGilles/ClarisseGilles.github.io",
   "sourceDirectory": "changelogs/1.21.1/neoforge/all-the-mons",
   "changelogUrl": "https://clarissegilles.github.io/changelogs/1.21.1/neoforge/all-the-mons/CHANGELOG.md",
-  "updatedAt": "2026-11-26T07:52:11+00:00",
+  "updatedAt": "2026-11-26T21:17:30+00:00",
   "releases": [
+    {
+      "version": "9831468",
+      "releaseTimestamp": "2026-11-26T18:13:34.277Z",
+      "changelogUrl": "https://www.curseforge.com/minecraft/modpacks/all-the-mons/files/9831468",
+      "displayName": "All the Mons-2.2.0",
+      "fileName": "All-the-Mons-2.2.0.zip",
+      "gameVersions": [
+        "1.21.1",
+        "NeoForge"
+      ],
+      "modLoaders": []
+    },
     {
       "version": "9635229",
       "releaseTimestamp": "2026-11-15T18:49:45.98Z",

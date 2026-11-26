@@ -1,5 +1,48 @@
 # All the Mons (NeoForge 1.21.1)
 
+## 9831468
+
+[Detailed changelog](https://github.com/AllTheMods/All-the-Mons/blob/main/CHANGELOG.md)
+
+Changelog
+
+2.2.0 letsTMs teach egg and tutor moves, and All the Moves brings back 190 TMs for egg moves. A Pokémon holding aMirror Herbin a pasture learns an egg move from a pasture mate.
+
+Mega Showdown takes over the Mega Stones from ZA Mega, andBattle Towertrainers hold them again.Fossil dig site questscomplete when you brush the site.
+
+NeoForge updated to 21.1.268.
+
+Pack changes
+
+TMs can be used for a Pokémon's tutor and egg moves, not only its TM moveset (LobsterJonn)
+
+A Pokémon holding a Mirror Herb in a pasture uses it up to learn an egg move that another Pokémon in the same pasture knows (LobsterJonn)
+
+Battle Tower trainers hold their Mega Stones again for the Megas that moved from ZA Mega to Mega Showdown (LobsterJonn)
+
+Absolite Z Mega Stones from before the update turn into Mega Showdown's Absolite Z instead of disappearing (LobsterJonn)
+
+Scolipite and Beedrillite no longer share a recipe: Scolipite takes Silver Powder in place of the Poison Barb (LobsterJonn)
+
+Fossil dig site quests complete when you brush Suspicious Sand or Gravel at the dig site (#789) (LobsterJonn)
+
+The Bumblezone music disc quest accepts any Bumblezone music disc, and the Copper Alloy quests ask for Conductive Alloy (#791) (LobsterJonn)
+
+Withered Bees accept Productive Farming's Wither Rose as their flower and for turning a Skeletal Bee into a Withered Bee (LobsterJonn)
+
+Paradox Pokémon are no longer pulled into and removed by a Just Dire Things paradox (LobsterJonn)
+
+Ultra Beast battles from Ultra Wormholes no longer get stuck after picking a move (LobsterJonn)
+
+The "add waypoint" link in the Ultra Wormhole announcement adds the waypoint in the wormhole's dimension instead of the Overworld (LobsterJonn)
+
+Fixed a crash on the second page of the Pika Power ponder on a server (LobsterJonn)
+
+Fixed a crash when viewing fossil recipes in JEI on a server (LobsterJonn)
+
+Neoforge Version is21.1.268
+
+ALWAYS REMEMBER TO BACKUP BEFORE UPDATING
 ## 9635229
 
 [Detailed changelog](https://github.com/AllTheMods/All-the-Mons/blob/main/CHANGELOG.md)
