@@ -43,6 +43,7 @@ Fixed a crash when viewing fossil recipes in JEI on a server (LobsterJonn)
 Neoforge Version is21.1.268
 
 ALWAYS REMEMBER TO BACKUP BEFORE UPDATING
+
 ## 9635229
 
 [Detailed changelog](https://github.com/AllTheMods/All-the-Mons/blob/main/CHANGELOG.md)
